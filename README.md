@@ -12,7 +12,7 @@
   <img src="assets/calendar-light.svg" width="720" alt="Calendário diário de contribuições no GitHub.">
 </picture>
 
-**693 contribuições** no calendário público do GitHub (nov/25 a nov/26).
+**694 contribuições** no calendário público do GitHub (nov/25 a nov/26).
 
 <details>
 <summary>Contribuições por mês em texto</summary>
@@ -31,7 +31,7 @@
 | ago/2026 | 31 |
 | set/2026 | 100 |
 | out/2026 | 253 |
-| nov/2026 | 233 |
+| nov/2026 | 234 |
 
 </details>
 
