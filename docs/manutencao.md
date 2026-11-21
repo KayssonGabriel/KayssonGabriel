@@ -37,7 +37,7 @@ python -m profile_readme --refresh
 python -m profile_readme --static --output preview/static
 ~~~
 
-O comando sem opções recria os artefatos a partir do JSON local. A opção de atualização consulta dados reais. O modo estático gera outro conjunto para inspeção, com o mesmo conteúdo essencial. Imagens dos cartões têm texto alternativo, e as séries numéricas estão disponíveis sob “Dados dos gráficos em texto”.
+O comando sem opções recria os artefatos a partir do JSON local. A opção de atualização consulta dados reais. O modo estático gera outro conjunto para inspeção, com o mesmo conteúdo essencial. Uma faixa de cor passa pelo nome no cabeçalho quando o navegador permite animações. Os cartões têm texto alternativo e cada gráfico tem uma tabela em texto logo abaixo.
 
 ## GitHub Actions
 

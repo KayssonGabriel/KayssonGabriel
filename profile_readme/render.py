@@ -12,13 +12,19 @@ from .cards import activity_card, hero, language_card, month_label, number, peri
 from .model import SCOPES, THEMES, validate_config, validate_snapshot
 
 SVG_NAMESPACE = "{http://www.w3.org/2000/svg}"
-SVG_TAGS = {f"{SVG_NAMESPACE}{tag}" for tag in ("svg", "title", "desc", "style", "rect", "text", "path", "circle", "g")}
+SVG_TAGS = {
+    f"{SVG_NAMESPACE}{tag}" for tag in (
+        "svg", "title", "desc", "style", "rect", "text", "path", "circle", "g",
+        "defs", "mask", "linearGradient", "stop",
+    )
+}
 SVG_ATTRIBUTES = {
     "viewBox", "width", "height", "role", "aria-labelledby", "id", "x", "y", "rx",
     "cx", "cy", "r", "fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin",
     "d", "class", "font-size", "font-family", "font-weight", "text-anchor", "letter-spacing",
-    "opacity", "pathLength", "transform",
+    "opacity", "transform", "mask", "maskUnits", "offset", "stop-color", "stop-opacity",
 }
+LOCAL_RESOURCES = {"fill": f"{SVG_NAMESPACE}linearGradient", "mask": f"{SVG_NAMESPACE}mask"}
 
 
 def validate_svg(markup):
@@ -27,12 +33,18 @@ def validate_svg(markup):
     root = ElementTree.fromstring(markup)
     if root.tag != f"{SVG_NAMESPACE}svg":
         raise ValueError("Raiz SVG inválida.")
-    for element in root.iter():
+    elements = list(root.iter())
+    definitions = {element.attrib["id"]: element.tag for element in elements if "id" in element.attrib}
+    for element in elements:
         if element.tag not in SVG_TAGS:
             raise ValueError("Elemento SVG fora da lista permitida.")
         for name, value in element.attrib.items():
-            if name not in SVG_ATTRIBUTES or re.search(r"url\s*\(|(?:https?|data|javascript):", value, re.I):
+            if name not in SVG_ATTRIBUTES or re.search(r"(?:https?|data|javascript):|\\", value, re.I):
                 raise ValueError("Atributo ou recurso SVG fora da lista permitida.")
+            if re.search(r"url\s*\(", value, re.I):
+                reference = re.fullmatch(r"url\(#([a-zA-Z][a-zA-Z0-9_-]*)\)", value)
+                if not reference or name not in LOCAL_RESOURCES or definitions.get(reference[1]) != LOCAL_RESOURCES[name]:
+                    raise ValueError("Use apenas referências SVG locais do tipo permitido.")
         if element.tag == f"{SVG_NAMESPACE}style" and re.search(
             r"@import|url\s*\(|(?:https?|data|javascript):|\\", element.text or "", re.I
         ):

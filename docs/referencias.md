@@ -23,7 +23,7 @@ Nos perfis reais, [Simon Willison](https://github.com/simonw/simonw) mostra como
 
 ## Direção escolhida
 
-Composição editorial em coluna única, com geometria de linhas e nós inspirada nos módulos e nas filas dos projetos. Fundo creme e verde profundo no tema claro, base grafite e verde-claro no escuro. Um traço percorre o cabeçalho uma vez. As barras do gráfico recebem uma entrada breve. Tipografia do sistema, texto estático por padrão nos SVGs e textos de apoio em Markdown.
+Composição editorial em coluna única, com geometria de linhas e nós inspirada nos módulos e nas filas dos projetos. Fundo creme e verde profundo no tema claro, base grafite e verde-claro no escuro. Uma faixa de cor percorre as letras do nome uma vez. O gráfico de commits vem logo após a apresentação e suas barras recebem uma entrada breve. A tipografia usa fontes do sistema, com texto estático por padrão nos SVGs e textos de apoio em Markdown.
 
 As métricas usam a API REST pública e o índice de commits. GraphQL é adequado para consultar um calendário, mas o calendário de perfil pode incluir atividade privada anonimizada conforme as preferências da conta. A busca pública, filtrada também no cliente, dá um recorte de autoria mais fácil de explicar. A contagem de linguagens usa a principal linguagem de cada repositório, com um voto por projeto.
 

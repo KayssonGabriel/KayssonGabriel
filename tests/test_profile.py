@@ -143,6 +143,42 @@ class RenderingTests(unittest.TestCase):
         counts = {"Java": 30, "C++": 10, "JavaScript": 5, "Python": 4, "PowerShell": 2}
         self.assertEqual(language_rows(counts)[-1], ("PowerShell", 2))
 
+    def test_activity_graph_precedes_projects_and_languages(self):
+        readme = build(self.config, self.theme, self.source, self.snapshot)["README.md"]
+        self.assertLess(readme.index("assets/activity-light.svg"), readme.index("## Projetos em destaque"))
+        self.assertLess(readme.index("## Projetos em destaque"), readme.index("assets/languages-light.svg"))
+        self.assertIn("Commits por mês em texto", readme)
+
+    def test_name_sweep_is_clipped_to_letterforms_and_has_a_static_mode(self):
+        svg = "assets/hero-light.svg"
+        motion = build(self.config, self.theme, self.source, self.snapshot)[svg]
+        static = build(self.config, self.theme, self.source, self.snapshot, static=True)[svg]
+        ns = {"s": "http://www.w3.org/2000/svg"}
+        root = ElementTree.fromstring(motion)
+        mask = root.find(".//s:mask", ns)
+        self.assertIsNotNone(mask)
+        self.assertEqual(mask.find("s:text", ns).text, self.config["name"])
+        group = root.find(f'.//s:g[@mask="url(#{mask.get("id")})"]', ns)
+        self.assertEqual(group.find("s:rect", ns).get("opacity"), "0")
+        self.assertIn("prefers-reduced-motion: no-preference", motion)
+        self.assertNotIn("<mask", static)
+        self.assertIn(self.config["name"], static)
+
+    def test_svg_masks_and_gradients_can_only_reference_local_definitions(self):
+        svg = (
+            '<svg xmlns="http://www.w3.org/2000/svg"><defs>'
+            '<linearGradient id="sweep"><stop offset="1" stop-color="#123456"/></linearGradient>'
+            '</defs><rect fill="url(#sweep)"/></svg>'
+        )
+        validate_svg(svg)
+        for invalid in (
+            svg.replace("url(#sweep)", "url(#missing)"),
+            svg.replace('fill="url(#sweep)"', 'mask="url(#sweep)"'),
+            svg.replace("url(#sweep)", "url(https://example.com/a.svg#sweep)"),
+        ):
+            with self.assertRaises(ValueError):
+                validate_svg(invalid)
+
     def test_snapshot_rejects_invalid_months_private_fields_and_totals(self):
         self.snapshot["months"].pop("2026-03")
         with self.assertRaises(ValueError):

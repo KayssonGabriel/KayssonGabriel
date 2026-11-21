@@ -4,28 +4,31 @@ $hero
 
 Desenvolvo ferramentas de automação para Windows com PowerShell. Também exploro sistemas distribuídos em Node.js e concorrência em Java.
 
-## Projetos em destaque
-
-$projects
-
 ## Atividade pública
 
 $activity
 
 $activity_summary
 
+<details>
+<summary>Commits por mês em texto</summary>
+
+$activity_table
+
+</details>
+
+## Projetos em destaque
+
+$projects
+
+## Linguagens
+
 $languages
 
 $language_summary
 
 <details>
-<summary>Dados dos gráficos em texto</summary>
-
-### Commits por mês
-
-$activity_table
-
-### Linguagens por repositório
+<summary>Linguagens por repositório em texto</summary>
 
 $language_table
 

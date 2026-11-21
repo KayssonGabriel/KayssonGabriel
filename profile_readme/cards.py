@@ -48,6 +48,27 @@ def frame(title, description, height, colors, body, *, motion=""):
     )
 
 
+def name_sweep(name_mask, colors):
+    return [
+        "<defs>",
+        '<linearGradient id="name-sweep-gradient">',
+        f'<stop offset="0" stop-color="{colors["accent"]}" stop-opacity="0"/>',
+        f'<stop offset=".25" stop-color="{colors["accent"]}"/>',
+        f'<stop offset=".53" stop-color="{colors["signal"]}"/>',
+        f'<stop offset=".78" stop-color="{colors["accent"]}"/>',
+        f'<stop offset="1" stop-color="{colors["accent"]}" stop-opacity="0"/>',
+        "</linearGradient>",
+        '<mask id="name-letterforms" maskUnits="userSpaceOnUse" x="35" y="65" width="510" height="90">',
+        name_mask,
+        "</mask>",
+        "</defs>",
+        '<g mask="url(#name-letterforms)">',
+        '<rect class="name-sweep" x="-155" y="65" width="155" height="90" '
+        'fill="url(#name-sweep-gradient)" opacity="0"/>',
+        "</g>",
+    ]
+
+
 def hero(config, c, *, static):
     route = "M551 160H576L604 132V100L631 73H672"
     pattern = [line(x, 45, x, 184, c["line"]) for x in range(538, 687, 24)]
@@ -58,11 +79,6 @@ def hero(config, c, *, static):
         f'<path d="M548 80H576L628 132H674M554 179H610L655 134V56" fill="none" stroke="{c["line"]}" stroke-width="2"/>',
         f'<path d="{route}" fill="none" stroke="{c["accent"]}" stroke-linecap="round" stroke-width="3"/>',
     ]
-    if not static:
-        artwork.append(
-            f'<path class="trace" d="{route}" pathLength="100" fill="none" stroke="{c["signal"]}" '
-            'stroke-linecap="round" stroke-width="4" opacity="0"/>'
-        )
     for x, y, radius, fill, stroke in (
         (551, 160, 5, c["background"], c["accent"]),
         (604, 132, 6, c["background"], c["accent"]),
@@ -72,23 +88,27 @@ def hero(config, c, *, static):
 
     name_size = min(60, 900 // len(config["name"]))
     subtitle_size = min(31, 840 // len(config["headline"]))
+    name_style = {"font": SERIF, "weight": 700, "spacing": -2}
+    name = label(43, 132, config["name"], name_size, c["ink"], **name_style)
+    sweep = [] if static else name_sweep(
+        label(43, 132, config["name"], name_size, "#FFFFFF", **name_style), c
+    )
     body = [
         *artwork,
         f'<circle cx="49" cy="54" r="5" fill="{c["signal"]}"/>',
         label(65, 62, f"@{config['login']}", 23, c["accent"], font=MONO),
-        label(43, 132, config["name"], name_size, c["ink"], font=SERIF, weight=700, spacing=-2),
+        name,
+        *sweep,
         label(45, 174, config["headline"], subtitle_size, c["muted"]),
         line(43, 209, 693, 209, c["line"]),
         line(43, 209, 118, 209, c["accent"]),
     ]
     motion = """
 @media (prefers-reduced-motion: no-preference) {
-  .trace { stroke-dasharray: 22 100; animation: trace-in 1.8s ease-out both; }
-  @keyframes trace-in {
-    0% { stroke-dashoffset: 22; opacity: 0; }
-    24% { opacity: .95; }
-    72% { opacity: .95; }
-    100% { stroke-dashoffset: -100; opacity: 0; }
+  .name-sweep { animation: name-sweep 2.25s ease-in-out .2s both; }
+  @keyframes name-sweep {
+    0% { transform: translateX(0px); opacity: 1; }
+    100% { transform: translateX(700px); opacity: 1; }
   }
 }
 """
