@@ -1,0 +1,22 @@
+{
+  "light": {
+    "background": "#F7F8F1",
+    "surface": "#EDF3E9",
+    "ink": "#162A26",
+    "muted": "#425B53",
+    "line": "#BDD1C4",
+    "accent": "#086954",
+    "accent_soft": "#CDE5D5",
+    "signal": "#895219"
+  },
+  "dark": {
+    "background": "#111F1D",
+    "surface": "#182B26",
+    "ink": "#F0F6EB",
+    "muted": "#A8C3B6",
+    "line": "#3D6053",
+    "accent": "#86E3B6",
+    "accent_soft": "#264539",
+    "signal": "#FFD197"
+  }
+}

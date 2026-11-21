@@ -1,0 +1,34 @@
+<h1>
+$hero
+</h1>
+
+Desenvolvo ferramentas de automação para Windows com PowerShell. Meus repositórios também reúnem projetos de desenvolvimento em Java e experimentos de algoritmos em Python.
+
+## Projetos em destaque
+
+$projects
+
+## Atividade pública
+
+$activity
+
+$activity_summary
+
+$languages
+
+$language_summary
+
+<details>
+<summary>Dados dos gráficos em texto</summary>
+
+### Commits por mês
+
+$activity_table
+
+### Linguagens por repositório
+
+$language_table
+
+</details>
+
+[Repositórios públicos]($repositories_url) · [Metodologia e manutenção](docs/manutencao.md)

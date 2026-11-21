@@ -1,0 +1,152 @@
+"""Build and check the complete set of publishable assets."""
+
+import json
+import os
+import re
+import tempfile
+from html import escape
+from string import Template
+from xml.etree import ElementTree
+
+from .cards import activity_card, hero, language_card, month_label, number, period, project_card
+from .model import SCOPES, THEMES, validate_config, validate_snapshot
+
+SVG_NAMESPACE = "{http://www.w3.org/2000/svg}"
+SVG_TAGS = {f"{SVG_NAMESPACE}{tag}" for tag in ("svg", "title", "desc", "style", "rect", "text", "path", "circle", "g")}
+SVG_ATTRIBUTES = {
+    "viewBox", "width", "height", "role", "aria-labelledby", "id", "x", "y", "rx",
+    "cx", "cy", "r", "fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin",
+    "d", "class", "font-size", "font-family", "font-weight", "text-anchor", "letter-spacing",
+    "opacity", "pathLength", "transform",
+}
+
+
+def validate_svg(markup):
+    if len(markup.encode("utf-8")) >= 12_000 or re.search(r"<!|<\?", markup):
+        raise ValueError("SVG excede o orçamento ou contém declarações externas.")
+    root = ElementTree.fromstring(markup)
+    if root.tag != f"{SVG_NAMESPACE}svg":
+        raise ValueError("Raiz SVG inválida.")
+    for element in root.iter():
+        if element.tag not in SVG_TAGS:
+            raise ValueError("Elemento SVG fora da lista permitida.")
+        for name, value in element.attrib.items():
+            if name not in SVG_ATTRIBUTES or re.search(r"url\s*\(|(?:https?|data|javascript):", value, re.I):
+                raise ValueError("Atributo ou recurso SVG fora da lista permitida.")
+        if element.tag == f"{SVG_NAMESPACE}style" and re.search(
+            r"@import|url\s*\(|(?:https?|data|javascript):|\\", element.text or "", re.I
+        ):
+            raise ValueError("Recurso CSS externo ou inválido.")
+
+
+def picture(asset, alt):
+    return (
+        '<picture>\n'
+        f'  <source media="(prefers-color-scheme: dark)" srcset="assets/{asset}-dark.svg">\n'
+        f'  <img src="assets/{asset}-light.svg" width="720" alt="{escape(alt, quote=True)}">\n'
+        '</picture>'
+    )
+
+
+def markdown_text(value):
+    return re.sub(r"([\\\x60*_\[\]|~])", r"\\\1", escape(value))
+
+
+def assemble_readme(template, config, snapshot):
+    base_url = f"https://github.com/{config['login']}"
+    projects = []
+    for project in config["projects"]:
+        alt = f"{project['title']} — {project['technology']}"
+        art = picture(project["slug"], alt)
+        projects.append(
+            f'<a href="{base_url}/{project["slug"]}">\n{art}\n</a>\n\n'
+            + markdown_text(project["description"])
+        )
+
+    months = snapshot["months"]
+    totals = {scope: sum(value[scope] for value in months.values()) for scope in SCOPES}
+    total = sum(totals.values())
+    scope_labels = {"own": "em projetos próprios", "forks": "em forks da conta", "third_party": "em projetos de terceiros"}
+    populated = [key for key, value in totals.items() if value]
+    breakdown = (
+        f" {scope_labels[populated[0]]}" if len(populated) == 1 else
+        " · " + " · ".join(f"{number(totals[key])} {scope_labels[key]}" for key in populated)
+    )
+    activity_summary = (
+        f"**{number(total)} {'commit público' if total == 1 else 'commits públicos'}** "
+        f"de {period(months)}{breakdown}."
+        if total else f"Nenhum commit público encontrado no índice de {period(months)}."
+    )
+    repositories = snapshot["repositories"]
+    n_own, n_forks = repositories["own"], repositories["forks"]
+    language_summary = (
+        f"**{number(n_own)} {'repositório próprio' if n_own == 1 else 'repositórios próprios'}** "
+        f"· {number(n_forks)} {'fork público' if n_forks == 1 else 'forks públicos'}. "
+        "Cada repositório próprio com linguagem identificada conta uma vez no gráfico."
+    )
+    activity_table = [
+        "| Mês | Próprios | Forks da conta | Terceiros |",
+        "| --- | ---: | ---: | ---: |",
+        *(f"| {month_label(key)}/{key[:4]} | " + " | ".join(number(value[scope]) for scope in SCOPES) + " |"
+          for key, value in sorted(months.items())),
+    ]
+    language_table = [
+        "| Linguagem | Repositórios |", "| --- | ---: |",
+        *(f"| {markdown_text(name)} | {number(value)} |" for name, value in sorted(
+            snapshot["languages"].items(), key=lambda item: (-item[1], item[0].casefold())
+        )),
+    ] if snapshot["languages"] else ["Nenhuma linguagem identificada."]
+    return Template(template).substitute(
+        hero=picture("hero", f"{config['name']} — {config['headline']}"),
+        projects="\n\n".join(projects),
+        activity=picture("activity", f"Gráfico de commits por mês, de {period(months)}."),
+        activity_summary=activity_summary,
+        languages=picture("languages", "Gráfico das linguagens predominantes nos repositórios próprios."),
+        language_summary=language_summary,
+        activity_table="\n".join(activity_table),
+        language_table="\n".join(language_table),
+        repositories_url=f"{base_url}?tab=repositories",
+    ).rstrip() + "\n"
+
+
+def build(config, themes, template, snapshot, *, static=False):
+    validate_config(config, themes)
+    validate_snapshot(snapshot, config["login"])
+    files = {}
+    for theme in THEMES:
+        colors = themes[theme]
+        cards = {
+            "hero": hero(config, colors, static=static),
+            "activity": activity_card(snapshot["months"], colors, static=static),
+            "languages": language_card(snapshot["languages"], colors),
+            **{project["slug"]: project_card(project, colors) for project in config["projects"]},
+        }
+        for name, markup in cards.items():
+            validate_svg(markup)
+            files[f"assets/{name}-{theme}.svg"] = markup
+    files["data/public.json"] = json.dumps(snapshot, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+    files["README.md"] = assemble_readme(template, config, snapshot)
+    return files
+
+
+def publish(location, files, *, check=False):
+    changed = []
+    for relative, content in files.items():
+        target = location / relative
+        payload = content.encode("utf-8")
+        if target.exists() and target.read_bytes() == payload:
+            continue
+        changed.append(relative)
+        if check:
+            continue
+        target.parent.mkdir(parents=True, exist_ok=True)
+        temporary = None
+        try:
+            with tempfile.NamedTemporaryFile(dir=target.parent, delete=False) as handle:
+                temporary = handle.name
+                handle.write(payload)
+            os.replace(temporary, target)
+        finally:
+            if temporary is not None and os.path.exists(temporary):
+                os.unlink(temporary)
+    return changed

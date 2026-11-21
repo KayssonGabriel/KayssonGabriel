@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 379" width="720" height="379" role="img" aria-labelledby="title details">
+<title id="title">Linguagens dos projetos</title><desc id="details">Contagem por linguagem principal dos repositórios próprios.</desc>
+<rect x="1" y="1" width="718" height="377" rx="20" fill="#111F1D" stroke="#3D6053"/>
+<text x="38" y="57" fill="#F0F6EB" font-size="38" font-family="Georgia, Times New Roman, serif" font-weight="700" text-anchor="start" letter-spacing="0">Linguagens dos projetos</text>
+<text x="40" y="93" fill="#A8C3B6" font-size="26" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="400" text-anchor="start" letter-spacing="0">Principal linguagem por repositório</text>
+<path d="M40 116L680 116" fill="none" stroke="#3D6053"/>
+<text x="40" y="160" fill="#F0F6EB" font-size="25" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="600" text-anchor="start" letter-spacing="0">Java</text>
+<rect x="271" y="142" width="343" height="16" rx="8" fill="#264539" stroke="none"/>
+<rect x="271" y="142" width="343" height="16" rx="8" fill="#86E3B6" stroke="none"/>
+<text x="679" y="160" fill="#86E3B6" font-size="26" font-family="Consolas, Liberation Mono, monospace" font-weight="700" text-anchor="end" letter-spacing="0">30</text>
+<text x="40" y="203" fill="#F0F6EB" font-size="25" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="600" text-anchor="start" letter-spacing="0">C++</text>
+<rect x="271" y="185" width="343" height="16" rx="8" fill="#264539" stroke="none"/>
+<rect x="271" y="185" width="114" height="16" rx="8" fill="#86E3B6" stroke="none"/>
+<text x="679" y="203" fill="#86E3B6" font-size="26" font-family="Consolas, Liberation Mono, monospace" font-weight="700" text-anchor="end" letter-spacing="0">10</text>
+<text x="40" y="246" fill="#F0F6EB" font-size="24" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="600" text-anchor="start" letter-spacing="0">JavaScript</text>
+<rect x="271" y="228" width="343" height="16" rx="8" fill="#264539" stroke="none"/>
+<rect x="271" y="228" width="57" height="16" rx="8" fill="#86E3B6" stroke="none"/>
+<text x="679" y="246" fill="#86E3B6" font-size="26" font-family="Consolas, Liberation Mono, monospace" font-weight="700" text-anchor="end" letter-spacing="0">5</text>
+<text x="40" y="289" fill="#F0F6EB" font-size="25" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="600" text-anchor="start" letter-spacing="0">Python</text>
+<rect x="271" y="271" width="343" height="16" rx="8" fill="#264539" stroke="none"/>
+<rect x="271" y="271" width="46" height="16" rx="8" fill="#86E3B6" stroke="none"/>
+<text x="679" y="289" fill="#86E3B6" font-size="26" font-family="Consolas, Liberation Mono, monospace" font-weight="700" text-anchor="end" letter-spacing="0">4</text>
+<text x="40" y="332" fill="#F0F6EB" font-size="24" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="600" text-anchor="start" letter-spacing="0">PowerShell</text>
+<rect x="271" y="314" width="343" height="16" rx="8" fill="#264539" stroke="none"/>
+<rect x="271" y="314" width="23" height="16" rx="8" fill="#86E3B6" stroke="none"/>
+<text x="679" y="332" fill="#86E3B6" font-size="26" font-family="Consolas, Liberation Mono, monospace" font-weight="700" text-anchor="end" letter-spacing="0">2</text>
+</svg>

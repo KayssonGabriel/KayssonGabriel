@@ -1,0 +1,31 @@
+{
+  "login": "KayssonGabriel",
+  "name": "Kaysson Gabriel",
+  "headline": "Automação e desenvolvimento",
+  "projects": [
+    {
+      "slug": "zero-privilege-win-tools",
+      "title": "Zero Privilege Win Tools",
+      "category": "Automação Windows",
+      "technology": "PowerShell · Batch",
+      "description": "Autoatendimento para tarefas de rede e manutenção do Windows em contexto de usuário.",
+      "icon": "tools"
+    },
+    {
+      "slug": "desafio-cronowise-kaysson-gabriel",
+      "title": "Desafio CronoWise",
+      "category": "Desenvolvimento Java",
+      "technology": "Java 17 · Maven",
+      "description": "Solução de um desafio técnico com fila de solicitações e detecção de anomalias.",
+      "icon": "queue"
+    },
+    {
+      "slug": "Algoritmo-Genetico-Mochila",
+      "title": "Algoritmo genético",
+      "category": "Otimização",
+      "technology": "Python",
+      "description": "Implementação de um algoritmo genético para explorar soluções do problema da mochila.",
+      "icon": "branch"
+    }
+  ]
+}

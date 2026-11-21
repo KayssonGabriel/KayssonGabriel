@@ -1,0 +1,77 @@
+{
+  "languages": {
+    "C++": 10,
+    "Java": 30,
+    "JavaScript": 5,
+    "PowerShell": 2,
+    "Python": 4
+  },
+  "login": "KayssonGabriel",
+  "months": {
+    "2025-12": {
+      "forks": 0,
+      "own": 0,
+      "third_party": 0
+    },
+    "2026-01": {
+      "forks": 0,
+      "own": 0,
+      "third_party": 0
+    },
+    "2026-02": {
+      "forks": 0,
+      "own": 0,
+      "third_party": 0
+    },
+    "2026-03": {
+      "forks": 0,
+      "own": 0,
+      "third_party": 0
+    },
+    "2026-04": {
+      "forks": 0,
+      "own": 25,
+      "third_party": 0
+    },
+    "2026-05": {
+      "forks": 0,
+      "own": 3,
+      "third_party": 0
+    },
+    "2026-06": {
+      "forks": 0,
+      "own": 0,
+      "third_party": 0
+    },
+    "2026-07": {
+      "forks": 0,
+      "own": 0,
+      "third_party": 0
+    },
+    "2026-08": {
+      "forks": 0,
+      "own": 0,
+      "third_party": 0
+    },
+    "2026-09": {
+      "forks": 0,
+      "own": 0,
+      "third_party": 0
+    },
+    "2026-10": {
+      "forks": 0,
+      "own": 0,
+      "third_party": 0
+    },
+    "2026-11": {
+      "forks": 0,
+      "own": 0,
+      "third_party": 0
+    }
+  },
+  "repositories": {
+    "forks": 1,
+    "own": 51
+  },
+  "version": 1
+}
