@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 145" width="720" height="145" role="img" aria-labelledby="title details">
-<title id="title">Zero Privilege Win Tools</title><desc id="details">Autoatendimento para tarefas de rede e manutenção do Windows em contexto de usuário.</desc>
+<title id="title">IT Support Toolkit</title><desc id="details">Ferramentas modulares para manutenção de rede, impressão e drivers no Windows, com logs de execução.</desc>
 <rect x="1" y="1" width="718" height="143" rx="20" fill="#F7F8F1" stroke="#BDD1C4"/>
 <rect x="31" y="32" width="89" height="80" rx="13" fill="#EDF3E9" stroke="#BDD1C4"/>
 <g transform="translate(48 46)">
@@ -8,7 +8,7 @@
 <circle cx="45" cy="39" r="3" fill="#895219"/>
 </g>
 <text x="146" y="42" fill="#086954" font-size="22" font-family="Consolas, Liberation Mono, monospace" font-weight="600" text-anchor="start" letter-spacing="0">Automação Windows</text>
-<text x="144" y="84" fill="#162A26" font-size="39" font-family="Georgia, Times New Roman, serif" font-weight="700" text-anchor="start" letter-spacing="0">Zero Privilege Win Tools</text>
+<text x="144" y="84" fill="#162A26" font-size="40" font-family="Georgia, Times New Roman, serif" font-weight="700" text-anchor="start" letter-spacing="0">IT Support Toolkit</text>
 <text x="146" y="117" fill="#425B53" font-size="24" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="400" text-anchor="start" letter-spacing="0">PowerShell · Batch</text>
 <g transform="translate(651 57)">
 <path d="M0 25L25 0M10 0H25V15" stroke="#086954" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>

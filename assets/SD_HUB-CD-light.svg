@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 145" width="720" height="145" role="img" aria-labelledby="title details">
-<title id="title">Algoritmo genético</title><desc id="details">Implementação de um algoritmo genético para explorar soluções do problema da mochila.</desc>
+<title id="title">Hub e centros de distribuição</title><desc id="details">Protótipo que conecta centros de distribuição, consulta estoques e registra transações entre serviços.</desc>
 <rect x="1" y="1" width="718" height="143" rx="20" fill="#F7F8F1" stroke="#BDD1C4"/>
 <rect x="31" y="32" width="89" height="80" rx="13" fill="#EDF3E9" stroke="#BDD1C4"/>
 <g transform="translate(48 46)">
@@ -9,9 +9,9 @@
 <circle cx="43" cy="13" r="3" fill="#895219"/>
 <circle cx="43" cy="39" r="3" fill="#895219"/>
 </g>
-<text x="146" y="42" fill="#086954" font-size="22" font-family="Consolas, Liberation Mono, monospace" font-weight="600" text-anchor="start" letter-spacing="0">Otimização</text>
-<text x="144" y="84" fill="#162A26" font-size="40" font-family="Georgia, Times New Roman, serif" font-weight="700" text-anchor="start" letter-spacing="0">Algoritmo genético</text>
-<text x="146" y="117" fill="#425B53" font-size="24" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="400" text-anchor="start" letter-spacing="0">Python</text>
+<text x="146" y="42" fill="#086954" font-size="22" font-family="Consolas, Liberation Mono, monospace" font-weight="600" text-anchor="start" letter-spacing="0">Sistemas distribuídos</text>
+<text x="144" y="84" fill="#162A26" font-size="32" font-family="Georgia, Times New Roman, serif" font-weight="700" text-anchor="start" letter-spacing="0">Hub e centros de distribuição</text>
+<text x="146" y="117" fill="#425B53" font-size="24" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="400" text-anchor="start" letter-spacing="0">Node.js · Express · MongoDB</text>
 <g transform="translate(651 57)">
 <path d="M0 25L25 0M10 0H25V15" stroke="#086954" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
 </g>

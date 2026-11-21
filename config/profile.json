@@ -4,28 +4,28 @@
   "headline": "Automação e desenvolvimento",
   "projects": [
     {
-      "slug": "zero-privilege-win-tools",
-      "title": "Zero Privilege Win Tools",
+      "slug": "SD_HUB-CD",
+      "title": "Hub e centros de distribuição",
+      "category": "Sistemas distribuídos",
+      "technology": "Node.js · Express · MongoDB",
+      "description": "Protótipo que conecta centros de distribuição, consulta estoques e registra transações entre serviços.",
+      "icon": "branch"
+    },
+    {
+      "slug": "it-support-toolkit",
+      "title": "IT Support Toolkit",
       "category": "Automação Windows",
       "technology": "PowerShell · Batch",
-      "description": "Autoatendimento para tarefas de rede e manutenção do Windows em contexto de usuário.",
+      "description": "Ferramentas modulares para manutenção de rede, impressão e drivers no Windows, com logs de execução.",
       "icon": "tools"
     },
     {
-      "slug": "desafio-cronowise-kaysson-gabriel",
-      "title": "Desafio CronoWise",
-      "category": "Desenvolvimento Java",
-      "technology": "Java 17 · Maven",
-      "description": "Solução de um desafio técnico com fila de solicitações e detecção de anomalias.",
+      "slug": "Simuladores-Leitores-Escritores-SO",
+      "title": "Leitores e escritores",
+      "category": "Concorrência em Java",
+      "technology": "Java · java.util.concurrent",
+      "description": "Cinco abordagens para coordenar leitores e escritores sobre um recurso compartilhado, de semáforos à troca de mensagens.",
       "icon": "queue"
-    },
-    {
-      "slug": "Algoritmo-Genetico-Mochila",
-      "title": "Algoritmo genético",
-      "category": "Otimização",
-      "technology": "Python",
-      "description": "Implementação de um algoritmo genético para explorar soluções do problema da mochila.",
-      "icon": "branch"
     }
   ]
 }

@@ -5,36 +5,36 @@
 </picture>
 </h1>
 
-Desenvolvo ferramentas de automação para Windows com PowerShell. Meus repositórios também reúnem projetos de desenvolvimento em Java e experimentos de algoritmos em Python.
+Desenvolvo ferramentas de automação para Windows com PowerShell. Também exploro sistemas distribuídos em Node.js e concorrência em Java.
 
 ## Projetos em destaque
 
-<a href="https://github.com/KayssonGabriel/zero-privilege-win-tools">
+<a href="https://github.com/KayssonGabriel/SD_HUB-CD">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/zero-privilege-win-tools-dark.svg">
-  <img src="assets/zero-privilege-win-tools-light.svg" width="720" alt="Zero Privilege Win Tools — PowerShell · Batch">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/SD_HUB-CD-dark.svg">
+  <img src="assets/SD_HUB-CD-light.svg" width="720" alt="Hub e centros de distribuição — Node.js · Express · MongoDB">
 </picture>
 </a>
 
-Autoatendimento para tarefas de rede e manutenção do Windows em contexto de usuário.
+Protótipo que conecta centros de distribuição, consulta estoques e registra transações entre serviços.
 
-<a href="https://github.com/KayssonGabriel/desafio-cronowise-kaysson-gabriel">
+<a href="https://github.com/KayssonGabriel/it-support-toolkit">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/desafio-cronowise-kaysson-gabriel-dark.svg">
-  <img src="assets/desafio-cronowise-kaysson-gabriel-light.svg" width="720" alt="Desafio CronoWise — Java 17 · Maven">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/it-support-toolkit-dark.svg">
+  <img src="assets/it-support-toolkit-light.svg" width="720" alt="IT Support Toolkit — PowerShell · Batch">
 </picture>
 </a>
 
-Solução de um desafio técnico com fila de solicitações e detecção de anomalias.
+Ferramentas modulares para manutenção de rede, impressão e drivers no Windows, com logs de execução.
 
-<a href="https://github.com/KayssonGabriel/Algoritmo-Genetico-Mochila">
+<a href="https://github.com/KayssonGabriel/Simuladores-Leitores-Escritores-SO">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/Algoritmo-Genetico-Mochila-dark.svg">
-  <img src="assets/Algoritmo-Genetico-Mochila-light.svg" width="720" alt="Algoritmo genético — Python">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/Simuladores-Leitores-Escritores-SO-dark.svg">
+  <img src="assets/Simuladores-Leitores-Escritores-SO-light.svg" width="720" alt="Leitores e escritores — Java · java.util.concurrent">
 </picture>
 </a>
 
-Implementação de um algoritmo genético para explorar soluções do problema da mochila.
+Cinco abordagens para coordenar leitores e escritores sobre um recurso compartilhado, de semáforos à troca de mensagens.
 
 ## Atividade pública
 
