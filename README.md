@@ -5,36 +5,37 @@
 </picture>
 </h1>
 
-Desenvolvo ferramentas de automação para Windows com PowerShell. Também exploro sistemas distribuídos em Node.js e concorrência em Java.
-
-## Atividade pública
+## Contribuições
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/activity-dark.svg">
-  <img src="assets/activity-light.svg" width="720" alt="Gráfico de commits por mês, de dez/25 a nov/26.">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/calendar-dark.svg">
+  <img src="assets/calendar-light.svg" width="720" alt="Calendário diário de contribuições no GitHub.">
 </picture>
 
-**28 commits públicos** de dez/25 a nov/26 em projetos próprios.
+**693 contribuições** no calendário público do GitHub (nov/25 a nov/26).
 
 <details>
-<summary>Commits por mês em texto</summary>
+<summary>Contribuições por mês em texto</summary>
 
-| Mês | Próprios | Forks da conta | Terceiros |
-| --- | ---: | ---: | ---: |
-| dez/2025 | 0 | 0 | 0 |
-| jan/2026 | 0 | 0 | 0 |
-| fev/2026 | 0 | 0 | 0 |
-| mar/2026 | 0 | 0 | 0 |
-| abr/2026 | 25 | 0 | 0 |
-| mai/2026 | 3 | 0 | 0 |
-| jun/2026 | 0 | 0 | 0 |
-| jul/2026 | 0 | 0 | 0 |
-| ago/2026 | 0 | 0 | 0 |
-| set/2026 | 0 | 0 | 0 |
-| out/2026 | 0 | 0 | 0 |
-| nov/2026 | 0 | 0 | 0 |
+| Mês | Contribuições |
+| --- | ---: |
+| nov/2025 | 0 |
+| dez/2025 | 3 |
+| jan/2026 | 0 |
+| fev/2026 | 0 |
+| mar/2026 | 0 |
+| abr/2026 | 65 |
+| mai/2026 | 6 |
+| jun/2026 | 0 |
+| jul/2026 | 2 |
+| ago/2026 | 31 |
+| set/2026 | 100 |
+| out/2026 | 253 |
+| nov/2026 | 233 |
 
 </details>
+
+Desenvolvo ferramentas de automação para Windows com PowerShell. Também exploro sistemas distribuídos em Node.js e concorrência em Java.
 
 ## Projetos em destaque
 
@@ -64,6 +65,35 @@ Ferramentas modulares para manutenção de rede, impressão e drivers no Windows
 </a>
 
 Cinco abordagens para coordenar leitores e escritores sobre um recurso compartilhado, de semáforos à troca de mensagens.
+
+## Commits públicos
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/activity-dark.svg">
+  <img src="assets/activity-light.svg" width="720" alt="Gráfico de commits por mês, de dez/25 a nov/26.">
+</picture>
+
+**28 commits públicos** de dez/25 a nov/26 em projetos próprios.
+
+<details>
+<summary>Commits por mês em texto</summary>
+
+| Mês | Próprios | Forks da conta | Terceiros |
+| --- | ---: | ---: | ---: |
+| dez/2025 | 0 | 0 | 0 |
+| jan/2026 | 0 | 0 | 0 |
+| fev/2026 | 0 | 0 | 0 |
+| mar/2026 | 0 | 0 | 0 |
+| abr/2026 | 25 | 0 | 0 |
+| mai/2026 | 3 | 0 | 0 |
+| jun/2026 | 0 | 0 | 0 |
+| jul/2026 | 0 | 0 | 0 |
+| ago/2026 | 0 | 0 | 0 |
+| set/2026 | 0 | 0 | 0 |
+| out/2026 | 0 | 0 | 0 |
+| nov/2026 | 0 | 0 | 0 |
+
+</details>
 
 ## Linguagens
 

@@ -34,7 +34,7 @@ jobs:
       - name: Publicar os arquivos atualizados
         shell: bash
         run: |
-          git add -- README.md assets data/public.json
+          git add -- README.md assets data/public.json data/calendar.json
           if git diff --cached --quiet; then
             echo "Dados e cartões já estão atualizados."
             exit 0

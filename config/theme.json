@@ -7,7 +7,12 @@
     "line": "#BDD1C4",
     "accent": "#086954",
     "accent_soft": "#CDE5D5",
-    "signal": "#895219"
+    "signal": "#895219",
+    "heat_empty": "#E0EADF",
+    "heat_low": "#ABD5B7",
+    "heat_mid": "#60B18A",
+    "heat_high": "#2D8766",
+    "heat_peak": "#0A5F46"
   },
   "dark": {
     "background": "#111F1D",
@@ -17,6 +22,11 @@
     "line": "#3D6053",
     "accent": "#86E3B6",
     "accent_soft": "#264539",
-    "signal": "#FFD197"
+    "signal": "#FFD197",
+    "heat_empty": "#263A33",
+    "heat_low": "#245940",
+    "heat_mid": "#2A805A",
+    "heat_high": "#54BA8A",
+    "heat_peak": "#A0EBC2"
   }
 }

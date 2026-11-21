@@ -2,6 +2,9 @@
 
 from html import escape
 
+from .calendar import daily_activity
+from .model import HEAT_COLORS
+
 SANS = "system-ui, Segoe UI, Arial, sans-serif"
 SERIF = "Georgia, Times New Roman, serif"
 MONO = "Consolas, Liberation Mono, monospace"
@@ -14,6 +17,38 @@ def number(value):
 
 def month_label(key):
     return MONTHS[int(key[5:]) - 1]
+
+
+def calendar_card(calendar, colors):
+    days = list(daily_activity(calendar))
+    total = number(sum(calendar["counts"]))
+    range_text = period([days[0][0].strftime("%Y-%m"), days[-1][0].strftime("%Y-%m")])
+    levels = [[] for _ in HEAT_COLORS]
+    month_labels = []
+    for index, (day, _, level) in enumerate(days):
+        week, row = divmod(index, 7)
+        x, y = 40 + week * 12, 121 + row * 12
+        levels[level].append(f"M{x} {y}h9v9h-9z")
+        if day.day == 1:
+            month_labels.append(label(x + 4, 111, MONTHS[day.month - 1], 18, colors["muted"],
+                                      font=MONO, anchor="middle"))
+    squares = [
+        f'<path d="{"".join(points)}" fill="{colors[key]}"/>'
+        for key, points in zip(HEAT_COLORS, levels) if points
+    ]
+    body = [
+        label(38, 53, "Último ano no GitHub", 38, colors["ink"], font=SERIF, weight=700),
+        label(40, 83, range_text, 23, colors["muted"], font=MONO),
+        label(679, 53, total, min(48, 225 // len(total)), colors["accent"], weight=700, anchor="end"),
+        label(679, 83, "no período", 22, colors["muted"], anchor="end"),
+        *month_labels, *squares,
+        label(40, 227, "Um quadrado por dia", 21, colors["muted"]),
+        label(544, 227, "Menos", 19, colors["muted"], anchor="end"),
+        *(rect(556 + index * 14, 215, 10, 10, colors[key], 1) for index, key in enumerate(HEAT_COLORS)),
+        label(638, 227, "Mais", 19, colors["muted"]),
+    ]
+    return frame("Calendário de contribuições", f"Total de {total} no período de {range_text}.",
+                 250, colors, body)
 
 
 def period(months):

@@ -8,7 +8,8 @@ from html import escape
 from string import Template
 from xml.etree import ElementTree
 
-from .cards import activity_card, hero, language_card, month_label, number, period, project_card
+from .calendar import daily_activity, validate_calendar
+from .cards import activity_card, calendar_card, hero, language_card, month_label, number, period, project_card
 from .model import SCOPES, THEMES, validate_config, validate_snapshot
 
 SVG_NAMESPACE = "{http://www.w3.org/2000/svg}"
@@ -64,7 +65,7 @@ def markdown_text(value):
     return re.sub(r"([\\\x60*_\[\]|~])", r"\\\1", escape(value))
 
 
-def assemble_readme(template, config, snapshot):
+def assemble_readme(template, config, snapshot, calendar):
     base_url = f"https://github.com/{config['login']}"
     projects = []
     for project in config["projects"]:
@@ -108,8 +109,24 @@ def assemble_readme(template, config, snapshot):
             snapshot["languages"].items(), key=lambda item: (-item[1], item[0].casefold())
         )),
     ] if snapshot["languages"] else ["Nenhuma linguagem identificada."]
+    calendar_total = number(sum(calendar["counts"]))
+    months_on_calendar = {}
+    for day, value, _ in daily_activity(calendar):
+        month = day.strftime("%Y-%m")
+        months_on_calendar[month] = months_on_calendar.get(month, 0) + value
+    calendar_table = [
+        "| Mês | Contribuições |", "| --- | ---: |",
+        *(f"| {month_label(key)}/{key[:4]} | {number(value)} |" for key, value in months_on_calendar.items()),
+    ]
+    contribution_word = "contribuição" if calendar_total == "1" else "contribuições"
     return Template(template).substitute(
         hero=picture("hero", f"{config['name']} — {config['headline']}"),
+        calendar=picture("calendar", "Calendário diário de contribuições no GitHub."),
+        calendar_summary=(
+            f"**{calendar_total} {contribution_word}** no calendário público do GitHub "
+            f"({period(months_on_calendar)})."
+        ),
+        calendar_table="\n".join(calendar_table),
         projects="\n\n".join(projects),
         activity=picture("activity", f"Gráfico de commits por mês, de {period(months)}."),
         activity_summary=activity_summary,
@@ -121,14 +138,16 @@ def assemble_readme(template, config, snapshot):
     ).rstrip() + "\n"
 
 
-def build(config, themes, template, snapshot, *, static=False):
+def build(config, themes, template, snapshot, calendar, *, static=False):
     validate_config(config, themes)
     validate_snapshot(snapshot, config["login"])
+    validate_calendar(calendar)
     files = {}
     for theme in THEMES:
         colors = themes[theme]
         cards = {
             "hero": hero(config, colors, static=static),
+            "calendar": calendar_card(calendar, colors),
             "activity": activity_card(snapshot["months"], colors, static=static),
             "languages": language_card(snapshot["languages"], colors),
             **{project["slug"]: project_card(project, colors) for project in config["projects"]},
@@ -137,7 +156,8 @@ def build(config, themes, template, snapshot, *, static=False):
             validate_svg(markup)
             files[f"assets/{name}-{theme}.svg"] = markup
     files["data/public.json"] = json.dumps(snapshot, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
-    files["README.md"] = assemble_readme(template, config, snapshot)
+    files["data/calendar.json"] = json.dumps(calendar, ensure_ascii=False, separators=(",", ":")) + "\n"
+    files["README.md"] = assemble_readme(template, config, snapshot, calendar)
     return files
 
 

@@ -2,9 +2,26 @@
 $hero
 </h1>
 
+## Contribuições
+
+$calendar
+
+$calendar_summary
+
+<details>
+<summary>Contribuições por mês em texto</summary>
+
+$calendar_table
+
+</details>
+
 Desenvolvo ferramentas de automação para Windows com PowerShell. Também exploro sistemas distribuídos em Node.js e concorrência em Java.
 
-## Atividade pública
+## Projetos em destaque
+
+$projects
+
+## Commits públicos
 
 $activity
 
@@ -16,10 +33,6 @@ $activity_summary
 $activity_table
 
 </details>
-
-## Projetos em destaque
-
-$projects
 
 ## Linguagens
 

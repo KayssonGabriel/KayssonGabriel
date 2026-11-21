@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from xml.etree.ElementTree import ParseError
 
+from .calendar import daily_activity, fetch_calendar
 from .data import collect
 from .github import GitHub, GitHubError
 from .model import read_json, validate_config
@@ -32,12 +33,18 @@ def main():
         template = (ROOT / "profile_readme/readme.md.in").read_text(encoding="utf-8")
         validate_config(config, themes)
         if args.refresh:
-            print("Consultando repositórios e commits públicos no GitHub.", flush=True)
+            print("Consultando repositórios, commits e calendário público no GitHub.", flush=True)
             api = GitHub(os.getenv("GITHUB_TOKEN"))
-            snapshot = collect(api, config["login"], datetime.now(timezone.utc).date())
+            today = datetime.now(timezone.utc).date()
+            snapshot = collect(api, config["login"], today)
+            calendar = fetch_calendar(config["login"])
+            end = max(day for day, _, _ in daily_activity(calendar))
+            if abs((today - end).days) > 1:
+                raise GitHubError("O calendário público retornado está desatualizado.")
         else:
             snapshot = read_json(ROOT / "data/public.json")
-        files = build(config, themes, template, snapshot, static=args.static)
+            calendar = read_json(ROOT / "data/calendar.json")
+        files = build(config, themes, template, snapshot, calendar, static=args.static)
         changed = publish(args.output, files, check=args.check)
     except GitHubError as error:
         print(f"Atualização interrompida. {error}", file=sys.stderr)

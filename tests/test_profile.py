@@ -6,6 +6,7 @@ from pathlib import Path
 from urllib.error import HTTPError
 from xml.etree import ElementTree
 
+from profile_readme.calendar import fetch_calendar, parse_calendar, validate_calendar
 from profile_readme.cards import language_rows
 from profile_readme.data import collect
 from profile_readme.github import GitHub, GitHubError
@@ -14,6 +15,25 @@ from profile_readme.render import build, publish, validate_svg
 
 ROOT = Path(__file__).resolve().parents[1]
 DAY = date(2026, 11, 21)
+CALENDAR = {"start": "2025-11-16", "counts": [0] * 369 + [2, 1], "levels": "0" * 369 + "21"}
+
+
+def calendar_html():
+    from datetime import timedelta
+
+    first = date.fromisoformat(CALENDAR["start"])
+    cells = []
+    for i, (count, level) in enumerate(zip(CALENDAR["counts"], CALENDAR["levels"])):
+        day = (first + timedelta(days=i)).isoformat()
+        label = "No contributions" if not count else f"{count} contribution{'s' if count != 1 else ''}"
+        cells.append(
+            f'<td class="ContributionCalendar-day" id="day-{i}" data-date="{day}" data-level="{level}"></td>'
+            f'<tool-tip for="day-{i}">{label} on November 21st.</tool-tip>'
+        )
+    return (
+        '<h2 id="js-contribution-activity-description">3 contributions in the last year</h2>'
+        '<table class="ContributionCalendar-grid">' + "".join(cells) + "</table>"
+    )
 
 
 def repo(name, language="Java", owner="KayssonGabriel", *, fork=False, private=False):
@@ -109,6 +129,36 @@ class GitHubTests(unittest.TestCase):
         self.assertNotIn("secret", str(raised.exception))
 
 
+class CalendarTests(unittest.TestCase):
+    def test_reads_daily_counts_and_intensities_from_the_public_grid(self):
+        self.assertEqual(parse_calendar(calendar_html()), CALENDAR)
+
+    def test_rejects_unverifiable_calendar_html(self):
+        html = calendar_html()
+        for invalid in (
+            html.replace("3 contributions in", "4 contributions in"),
+            html.replace('data-date="2026-11-21"', 'data-date="2026-11-22"'),
+            html.replace('<tool-tip for="day-370">', '<tool-tip for="unmatched">'),
+            html.replace('data-level="2"', 'data-level="0"'),
+        ):
+            with self.assertRaises(ValueError):
+                parse_calendar(invalid)
+
+    def test_snapshot_rejects_non_public_payload_fields(self):
+        with self.assertRaises(ValueError):
+            validate_calendar({**CALENDAR, "repository": "unexpected"})
+
+    def test_fetch_queries_the_public_view_without_authorization(self):
+        from io import BytesIO
+
+        def request(req, *, timeout):
+            self.assertEqual(req.full_url, "https://github.com/users/KayssonGabriel/contributions")
+            self.assertNotIn("Authorization", dict(req.header_items()))
+            return BytesIO(calendar_html().encode())
+
+        self.assertEqual(fetch_calendar("KayssonGabriel", opener=request), CALENDAR)
+
+
 class RenderingTests(unittest.TestCase):
     def setUp(self):
         self.config = read_json(ROOT / "config/profile.json")
@@ -116,14 +166,17 @@ class RenderingTests(unittest.TestCase):
         self.source = (ROOT / "profile_readme/readme.md.in").read_text(encoding="utf-8")
         self.snapshot = collect(FixtureAPI([], []), "KayssonGabriel", DAY)
 
+    def build(self, *, static=False):
+        return build(self.config, self.theme, self.source, self.snapshot, CALENDAR, static=static)
+
     def test_output_contract_and_static_mode(self):
-        files = build(self.config, self.theme, self.source, self.snapshot)
-        self.assertEqual(len(files), 14)
+        files = self.build()
+        self.assertEqual(len(files), 17)
         self.assertIn("data/public.json", files)
         self.assertIn("assets/hero-dark.svg", files["README.md"])
         self.assertIn("prefers-reduced-motion", files["assets/hero-light.svg"])
         self.assertIn("Nenhum commit", files["README.md"])
-        static_files = build(self.config, self.theme, self.source, self.snapshot, static=True)
+        static_files = self.build(static=True)
         self.assertNotIn("@keyframes", static_files["assets/hero-light.svg"])
         for path, source in files.items():
             if path.endswith(".svg"):
@@ -132,7 +185,7 @@ class RenderingTests(unittest.TestCase):
 
     def test_xml_escaping_and_config_validation(self):
         self.config["name"] = 'Teste & <nome>'
-        files = build(self.config, self.theme, self.source, self.snapshot)
+        files = self.build()
         self.assertIn("Teste &amp; &lt;nome&gt;", files["assets/hero-light.svg"])
         for slug in ("../unsafe", "hero", "ACTIVITY"):
             self.config["projects"][0]["slug"] = slug
@@ -143,16 +196,18 @@ class RenderingTests(unittest.TestCase):
         counts = {"Java": 30, "C++": 10, "JavaScript": 5, "Python": 4, "PowerShell": 2}
         self.assertEqual(language_rows(counts)[-1], ("PowerShell", 2))
 
-    def test_activity_graph_precedes_projects_and_languages(self):
-        readme = build(self.config, self.theme, self.source, self.snapshot)["README.md"]
-        self.assertLess(readme.index("assets/activity-light.svg"), readme.index("## Projetos em destaque"))
-        self.assertLess(readme.index("## Projetos em destaque"), readme.index("assets/languages-light.svg"))
+    def test_calendar_precedes_projects_and_commit_bars_follow_them(self):
+        files = self.build()
+        readme = files["README.md"]
+        self.assertLess(readme.index("assets/calendar-light.svg"), readme.index("## Projetos em destaque"))
+        self.assertLess(readme.index("## Projetos em destaque"), readme.index("assets/activity-light.svg"))
         self.assertIn("Commits por mês em texto", readme)
+        self.assertIn("3 contribuições", readme)
 
     def test_name_sweep_is_clipped_to_letterforms_and_has_a_static_mode(self):
         svg = "assets/hero-light.svg"
-        motion = build(self.config, self.theme, self.source, self.snapshot)[svg]
-        static = build(self.config, self.theme, self.source, self.snapshot, static=True)[svg]
+        motion = self.build()[svg]
+        static = self.build(static=True)[svg]
         ns = {"s": "http://www.w3.org/2000/svg"}
         root = ElementTree.fromstring(motion)
         mask = root.find(".//s:mask", ns)
@@ -202,8 +257,8 @@ class RenderingTests(unittest.TestCase):
     def test_publish_noop_and_freshness_check(self):
         with tempfile.TemporaryDirectory() as directory:
             target = Path(directory)
-            files = build(self.config, self.theme, self.source, self.snapshot)
-            self.assertEqual(len(publish(target, files)), 14)
+            files = self.build()
+            self.assertEqual(len(publish(target, files)), 17)
             self.assertEqual(publish(target, files), [])
             first = target / "README.md"
             first.write_text("stale", encoding="utf-8")
