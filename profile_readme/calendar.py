@@ -20,6 +20,14 @@ def daily_activity(calendar):
         yield start + timedelta(days=index), value, int(level)
 
 
+def monthly_contributions(calendar):
+    months = {}
+    for day, value, _ in daily_activity(calendar):
+        month = day.strftime("%Y-%m")
+        months[month] = months.get(month, 0) + value
+    return months
+
+
 def validate_calendar(calendar):
     fields(calendar, ("start", "counts", "levels"), "calendário")
     start = date.fromisoformat(calendar["start"])

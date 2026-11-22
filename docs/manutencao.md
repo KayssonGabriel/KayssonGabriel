@@ -18,9 +18,10 @@ O README público usa SVGs locais, Markdown e HTML aceito pelo GitHub. O gerador
 ## Como as métricas são calculadas
 
 - **Calendário de contribuições.** O cartão reproduz as contagens e os níveis diários que a página pública do perfil mostra a visitantes sem login. Cada coluna representa uma semana, com os dias de domingo a sábado. O total segue o período apresentado pelo GitHub e pode incluir contagens anônimas que o perfil já optou por tornar visíveis. A coleta não usa credenciais nem obtém detalhes de repositórios privados. [Critérios de contagem do GitHub](https://docs.github.com/en/account-and-profile/reference/profile-contributions-reference)
+- **Resumo mensal.** As barras e a tabela somam as contagens diárias do mesmo calendário por mês. A janela começa e termina nas datas mostradas pelo GitHub e pode incluir dois meses parciais. O total do gráfico coincide com o do calendário.
 - **Repositórios.** A API REST lista os repositórios públicos da conta por propriedade. Próprios e forks são contados separadamente. O repositório do perfil fica fora, para as atualizações automáticas não inflarem a atividade.
 - **Linguagens.** Cada repositório próprio com linguagem detectada pelo GitHub contribui uma vez, usando o campo de linguagem principal. O SVG mostra as cinco mais frequentes e soma as demais. A tabela textual inclui todas. A quantidade mede a presença da linguagem nos projetos.
-- **Commits públicos.** A busca REST aplica a autoria do login identificado para este perfil, a visibilidade pública e a data de autoria. A janela abrange 12 meses-calendário e inclui o mês atual em andamento. Cada par repositório e SHA conta uma vez. O mês vem da data de autoria no fuso registrado no commit. A tabela diferencia projetos próprios, forks da conta e repositórios de terceiros.
+- **Recorte de commits públicos.** O arquivo de dados mantém a contagem da busca REST como recorte complementar por autoria, visibilidade pública e data de autoria. A janela abrange 12 meses-calendário e inclui o mês atual em andamento. Cada par repositório e SHA conta uma vez. O mês vem da data de autoria no fuso registrado no commit. O arquivo diferencia projetos próprios, forks da conta e repositórios de terceiros.
 - **Cobertura.** O índice do GitHub cobre apenas branches padrão e pode ter atraso. O recorte deixa de fora PRs, issues, revisões, coautoria sem correspondência no campo de autor e calendário privado. Veja as regras na [documentação da busca de commits](https://docs.github.com/en/search-github/searching-on-github/searching-commits).
 
 Os arquivos agregados registram o login, os períodos e as contagens. Mensagens, e-mails, tokens, SHAs individuais e nomes de autores ou repositórios de terceiros ficam fora dos arquivos. A coleta normalmente usa duas requisições REST e uma leitura do calendário público. Os snapshots versionados integram o histórico do repositório.
@@ -39,7 +40,7 @@ python -m profile_readme --refresh
 python -m profile_readme --static --output preview/static
 ~~~
 
-O comando sem opções recria os artefatos a partir do JSON local. A opção de atualização consulta dados reais. O modo estático gera outro conjunto para inspeção, com o mesmo conteúdo essencial. Uma faixa de cor passa pelo nome no cabeçalho quando o navegador permite animações. Os cartões têm texto alternativo e cada gráfico tem uma tabela em texto logo abaixo.
+O comando sem opções recria os artefatos a partir do JSON local. A opção de atualização consulta dados reais. O modo estático gera outro conjunto para inspeção, com o mesmo conteúdo essencial. Uma faixa de cor passa pelo nome no cabeçalho quando o navegador permite animações. Os cartões têm texto alternativo. As contagens mensais e as linguagens também estão disponíveis em tabelas.
 
 ## GitHub Actions
 

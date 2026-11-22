@@ -189,27 +189,30 @@ def project_card(project, c):
 
 
 def activity_card(months, c, *, static):
-    totals = {key: sum(values.values()) for key, values in sorted(months.items())}
+    totals = dict(sorted(months.items()))
     total = sum(totals.values())
+    total_label = number(total)
     peak = max(totals.values())
     body = [
-        label(38, 57, "Commits por mês", 38, c["ink"], font=SERIF, weight=700),
+        label(38, 57, "Contribuições por mês", 38, c["ink"], font=SERIF, weight=700),
         label(40, 93, period(months), 25, c["muted"], font=MONO),
-        label(679, 59, number(total), 50, c["accent"], weight=700, anchor="end"),
+        label(679, 59, total_label, min(50, 230 // len(total_label)), c["accent"], weight=700, anchor="end"),
         label(679, 94, "no período", 25, c["muted"], anchor="end"),
         line(40, 116, 680, 116, c["line"]),
         *[line(40, y, 680, y, c["line"]) for y in (153, 196, 240)],
     ]
     for index, (key, value) in enumerate(totals.items()):
-        x = 58 + index * 55
+        x = 54 + round(index * 612 / (len(totals) - 1))
         if value:
             height = max(3, round(value * 89 / peak))
             color = c["signal"] if value == peak else c["accent"]
+            value_label = number(value)
             body.extend([
                 '<g class="bar">',
                 rect(x - 12, 240 - height, 24, height, color, min(height / 2, 5)),
                 "</g>",
-                label(x, 231 - height, number(value), 24, c["ink"], weight=600, anchor="middle"),
+                label(x, 231 - height, value_label, min(24, 72 // len(value_label)), c["ink"],
+                      weight=600, anchor="middle"),
             ])
         else:
             body.append(rect(x - 10, 237, 20, 3, c["line"], 1))
@@ -220,7 +223,8 @@ def activity_card(months, c, *, static):
   @keyframes grow { from { transform: scaleY(.2); opacity: .45; } to { transform: scaleY(1); opacity: 1; } }
 }
 """
-    return frame("Commits públicos por mês", f"{number(total)} commits de {period(months)}.",
+    unit = "contribuição" if total == 1 else "contribuições"
+    return frame("Contribuições por mês", f"{total_label} {unit} de {period(months)}.",
                  300, c, body, motion="" if static else motion)
 
 

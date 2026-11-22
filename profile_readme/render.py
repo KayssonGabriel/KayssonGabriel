@@ -8,9 +8,9 @@ from html import escape
 from string import Template
 from xml.etree import ElementTree
 
-from .calendar import daily_activity, validate_calendar
+from .calendar import monthly_contributions, validate_calendar
 from .cards import activity_card, calendar_card, hero, language_card, month_label, number, period, project_card
-from .model import SCOPES, THEMES, validate_config, validate_snapshot
+from .model import THEMES, validate_config, validate_snapshot
 
 SVG_NAMESPACE = "{http://www.w3.org/2000/svg}"
 SVG_TAGS = {
@@ -65,7 +65,7 @@ def markdown_text(value):
     return re.sub(r"([\\\x60*_\[\]|~])", r"\\\1", escape(value))
 
 
-def assemble_readme(template, config, snapshot, calendar):
+def assemble_readme(template, config, snapshot, months):
     base_url = f"https://github.com/{config['login']}"
     projects = []
     for project in config["projects"]:
@@ -76,20 +76,6 @@ def assemble_readme(template, config, snapshot, calendar):
             + markdown_text(project["description"])
         )
 
-    months = snapshot["months"]
-    totals = {scope: sum(value[scope] for value in months.values()) for scope in SCOPES}
-    total = sum(totals.values())
-    scope_labels = {"own": "em projetos próprios", "forks": "em forks da conta", "third_party": "em projetos de terceiros"}
-    populated = [key for key, value in totals.items() if value]
-    breakdown = (
-        f" {scope_labels[populated[0]]}" if len(populated) == 1 else
-        " · " + " · ".join(f"{number(totals[key])} {scope_labels[key]}" for key in populated)
-    )
-    activity_summary = (
-        f"**{number(total)} {'commit público' if total == 1 else 'commits públicos'}** "
-        f"de {period(months)}{breakdown}."
-        if total else f"Nenhum commit público encontrado no índice de {period(months)}."
-    )
     repositories = snapshot["repositories"]
     n_own, n_forks = repositories["own"], repositories["forks"]
     language_summary = (
@@ -97,39 +83,27 @@ def assemble_readme(template, config, snapshot, calendar):
         f"· {number(n_forks)} {'fork público' if n_forks == 1 else 'forks públicos'}. "
         "Cada repositório próprio com linguagem identificada conta uma vez no gráfico."
     )
-    activity_table = [
-        "| Mês | Próprios | Forks da conta | Terceiros |",
-        "| --- | ---: | ---: | ---: |",
-        *(f"| {month_label(key)}/{key[:4]} | " + " | ".join(number(value[scope]) for scope in SCOPES) + " |"
-          for key, value in sorted(months.items())),
-    ]
     language_table = [
         "| Linguagem | Repositórios |", "| --- | ---: |",
         *(f"| {markdown_text(name)} | {number(value)} |" for name, value in sorted(
             snapshot["languages"].items(), key=lambda item: (-item[1], item[0].casefold())
         )),
     ] if snapshot["languages"] else ["Nenhuma linguagem identificada."]
-    calendar_total = number(sum(calendar["counts"]))
-    months_on_calendar = {}
-    for day, value, _ in daily_activity(calendar):
-        month = day.strftime("%Y-%m")
-        months_on_calendar[month] = months_on_calendar.get(month, 0) + value
-    calendar_table = [
+    total = sum(months.values())
+    activity_table = [
         "| Mês | Contribuições |", "| --- | ---: |",
-        *(f"| {month_label(key)}/{key[:4]} | {number(value)} |" for key, value in months_on_calendar.items()),
+        *(f"| {month_label(key)}/{key[:4]} | {number(value)} |" for key, value in months.items()),
     ]
-    contribution_word = "contribuição" if calendar_total == "1" else "contribuições"
+    unit = "contribuição" if total == 1 else "contribuições"
     return Template(template).substitute(
         hero=picture("hero", f"{config['name']} — {config['headline']}"),
         calendar=picture("calendar", "Calendário diário de contribuições no GitHub."),
         calendar_summary=(
-            f"**{calendar_total} {contribution_word}** no calendário público do GitHub "
-            f"({period(months_on_calendar)})."
+            f"**{number(total)} {unit}** no calendário do GitHub ({period(months)}). "
+            "A contagem inclui a atividade privada exibida anonimamente no perfil."
         ),
-        calendar_table="\n".join(calendar_table),
         projects="\n\n".join(projects),
-        activity=picture("activity", f"Gráfico de commits por mês, de {period(months)}."),
-        activity_summary=activity_summary,
+        activity=picture("activity", f"Gráfico de contribuições por mês, de {period(months)}."),
         languages=picture("languages", "Gráfico das linguagens predominantes nos repositórios próprios."),
         language_summary=language_summary,
         activity_table="\n".join(activity_table),
@@ -142,13 +116,14 @@ def build(config, themes, template, snapshot, calendar, *, static=False):
     validate_config(config, themes)
     validate_snapshot(snapshot, config["login"])
     validate_calendar(calendar)
+    months = monthly_contributions(calendar)
     files = {}
     for theme in THEMES:
         colors = themes[theme]
         cards = {
             "hero": hero(config, colors, static=static),
             "calendar": calendar_card(calendar, colors),
-            "activity": activity_card(snapshot["months"], colors, static=static),
+            "activity": activity_card(months, colors, static=static),
             "languages": language_card(snapshot["languages"], colors),
             **{project["slug"]: project_card(project, colors) for project in config["projects"]},
         }
@@ -157,7 +132,7 @@ def build(config, themes, template, snapshot, calendar, *, static=False):
             files[f"assets/{name}-{theme}.svg"] = markup
     files["data/public.json"] = json.dumps(snapshot, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     files["data/calendar.json"] = json.dumps(calendar, ensure_ascii=False, separators=(",", ":")) + "\n"
-    files["README.md"] = assemble_readme(template, config, snapshot, calendar)
+    files["README.md"] = assemble_readme(template, config, snapshot, months)
     return files
 
 

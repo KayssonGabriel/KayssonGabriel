@@ -175,7 +175,7 @@ class RenderingTests(unittest.TestCase):
         self.assertIn("data/public.json", files)
         self.assertIn("assets/hero-dark.svg", files["README.md"])
         self.assertIn("prefers-reduced-motion", files["assets/hero-light.svg"])
-        self.assertIn("Nenhum commit", files["README.md"])
+        self.assertIn("3 contribuições", files["README.md"])
         static_files = self.build(static=True)
         self.assertNotIn("@keyframes", static_files["assets/hero-light.svg"])
         for path, source in files.items():
@@ -196,13 +196,22 @@ class RenderingTests(unittest.TestCase):
         counts = {"Java": 30, "C++": 10, "JavaScript": 5, "Python": 4, "PowerShell": 2}
         self.assertEqual(language_rows(counts)[-1], ("PowerShell", 2))
 
-    def test_calendar_precedes_projects_and_commit_bars_follow_them(self):
-        files = self.build()
+    def test_monthly_bars_and_table_use_all_contributions_in_the_calendar(self):
+        calendar = {**CALENDAR, "counts": [7] + CALENDAR["counts"][1:], "levels": "3" + CALENDAR["levels"][1:]}
+        files = build(self.config, self.theme, self.source, self.snapshot, calendar)
         readme = files["README.md"]
+        activity = files["assets/activity-light.svg"]
         self.assertLess(readme.index("assets/calendar-light.svg"), readme.index("## Projetos em destaque"))
         self.assertLess(readme.index("## Projetos em destaque"), readme.index("assets/activity-light.svg"))
-        self.assertIn("Commits por mês em texto", readme)
-        self.assertIn("3 contribuições", readme)
+        self.assertIn("Contribuições por mês em texto", readme)
+        self.assertNotIn("Commits por mês", readme)
+        self.assertIn("10 contribuições", readme)
+        self.assertIn("| nov/2025 | 7 |", readme)
+        self.assertIn("| nov/2026 | 3 |", readme)
+        root = ElementTree.fromstring(activity)
+        ns = {"s": "http://www.w3.org/2000/svg"}
+        self.assertIn("10 contribuições", root.find("s:desc", ns).text)
+        self.assertEqual(len(root.findall('.//s:g[@class="bar"]', ns)), 2)
 
     def test_name_sweep_is_clipped_to_letterforms_and_has_a_static_mode(self):
         svg = "assets/hero-light.svg"
