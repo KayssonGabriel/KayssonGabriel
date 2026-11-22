@@ -3,10 +3,16 @@
 <style>
 @media (prefers-reduced-motion: no-preference) {
   .name-sweep { animation: name-sweep 7s linear infinite; }
+  .circuit-signal { stroke-dasharray: 9 115; animation: circuit-flow 7s linear infinite; }
   @keyframes name-sweep {
     0%, 3% { transform: translateX(0px); opacity: 1; }
     34% { transform: translateX(700px); opacity: 1; }
     35%, 100% { transform: translateX(700px); opacity: 0; }
+  }
+  @keyframes circuit-flow {
+    0%, 43% { stroke-dashoffset: 10; opacity: 0; }
+    48%, 66% { opacity: 1; }
+    73%, 100% { stroke-dashoffset: -100; opacity: 0; }
   }
 }
 </style>
@@ -29,6 +35,7 @@
 </g>
 <path d="M548 80H576L628 132H674M554 179H610L655 134V56" fill="none" stroke="#3D6053" stroke-width="2"/>
 <path d="M551 160H576L604 132V100L631 73H672" fill="none" stroke="#86E3B6" stroke-linecap="round" stroke-width="3"/>
+<path class="circuit-signal" d="M551 160H576L604 132V100L631 73H672" pathLength="100" fill="none" stroke="#FFD197" stroke-linecap="round" stroke-width="4.5" opacity="0"/>
 <circle cx="551" cy="160" r="5" fill="#111F1D" stroke="#86E3B6" stroke-width="2"/>
 <circle cx="604" cy="132" r="6" fill="#111F1D" stroke="#86E3B6" stroke-width="2"/>
 <circle cx="672" cy="73" r="5" fill="#FFD197" stroke="#FFD197" stroke-width="2"/>

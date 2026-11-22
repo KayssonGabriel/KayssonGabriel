@@ -10,20 +10,21 @@ from xml.etree import ElementTree
 
 from .calendar import monthly_contributions, validate_calendar
 from .cards import activity_card, calendar_card, hero, language_card, month_label, number, period, project_card
-from .model import HERO_ASSET, THEMES, validate_config, validate_snapshot
+from .model import CALENDAR_ASSET, HERO_ASSET, THEMES, validate_config, validate_snapshot
 
 SVG_NAMESPACE = "{http://www.w3.org/2000/svg}"
 SVG_TAGS = {
     f"{SVG_NAMESPACE}{tag}" for tag in (
         "svg", "title", "desc", "style", "rect", "text", "path", "circle", "g",
-        "defs", "mask", "linearGradient", "stop",
+        "defs", "mask", "linearGradient", "stop", "use",
     )
 }
 SVG_ATTRIBUTES = {
     "viewBox", "width", "height", "role", "aria-labelledby", "id", "x", "y", "rx",
     "cx", "cy", "r", "fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin",
     "d", "class", "font-size", "font-family", "font-weight", "text-anchor", "letter-spacing",
-    "opacity", "transform", "mask", "maskUnits", "offset", "stop-color", "stop-opacity",
+    "opacity", "transform", "mask", "maskUnits", "mask-type", "offset", "stop-color", "stop-opacity",
+    "pathLength", "href",
 }
 LOCAL_RESOURCES = {"fill": f"{SVG_NAMESPACE}linearGradient", "mask": f"{SVG_NAMESPACE}mask"}
 
@@ -42,6 +43,11 @@ def validate_svg(markup):
         for name, value in element.attrib.items():
             if name not in SVG_ATTRIBUTES or re.search(r"(?:https?|data|javascript):|\\", value, re.I):
                 raise ValueError("Atributo ou recurso SVG fora da lista permitida.")
+            if name == "href" and (
+                element.tag != f"{SVG_NAMESPACE}use" or value != "#calendar-grid"
+                or definitions.get("calendar-grid") != f"{SVG_NAMESPACE}g"
+            ):
+                raise ValueError("O SVG só pode referenciar a própria grade do calendário.")
             if re.search(r"url\s*\(", value, re.I):
                 reference = re.fullmatch(r"url\(#([a-zA-Z][a-zA-Z0-9_-]*)\)", value)
                 if not reference or name not in LOCAL_RESOURCES or definitions.get(reference[1]) != LOCAL_RESOURCES[name]:
@@ -97,7 +103,7 @@ def assemble_readme(template, config, snapshot, months):
     unit = "contribuição" if total == 1 else "contribuições"
     return Template(template).substitute(
         hero=picture(HERO_ASSET, f"{config['name']} — {config['headline']}"),
-        calendar=picture("calendar", "Calendário diário de contribuições no GitHub."),
+        calendar=picture(CALENDAR_ASSET, "Calendário diário de contribuições no GitHub."),
         calendar_summary=(
             f"**{number(total)} {unit}** no calendário do GitHub ({period(months)}). "
             "A contagem inclui a atividade privada exibida anonimamente no perfil."
@@ -122,7 +128,7 @@ def build(config, themes, template, snapshot, calendar, *, static=False):
         colors = themes[theme]
         cards = {
             HERO_ASSET: hero(config, colors, static=static),
-            "calendar": calendar_card(calendar, colors),
+            CALENDAR_ASSET: calendar_card(calendar, colors, static=static),
             "activity": activity_card(months, colors, static=static),
             "languages": language_card(snapshot["languages"], colors),
             **{project["slug"]: project_card(project, colors) for project in config["projects"]},

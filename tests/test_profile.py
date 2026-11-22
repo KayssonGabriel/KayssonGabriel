@@ -173,11 +173,11 @@ class RenderingTests(unittest.TestCase):
         files = self.build()
         self.assertEqual(len(files), 17)
         self.assertIn("data/public.json", files)
-        self.assertIn("assets/hero-color-dark.svg", files["README.md"])
-        self.assertIn("prefers-reduced-motion", files["assets/hero-color-light.svg"])
+        self.assertIn("assets/hero-flow-dark.svg", files["README.md"])
+        self.assertIn("prefers-reduced-motion", files["assets/hero-flow-light.svg"])
         self.assertIn("3 contribuições", files["README.md"])
         static_files = self.build(static=True)
-        self.assertNotIn("@keyframes", static_files["assets/hero-color-light.svg"])
+        self.assertNotIn("@keyframes", static_files["assets/hero-flow-light.svg"])
         for path, source in files.items():
             if path.endswith(".svg"):
                 self.assertEqual(ElementTree.fromstring(source).tag, "{http://www.w3.org/2000/svg}svg")
@@ -186,8 +186,8 @@ class RenderingTests(unittest.TestCase):
     def test_xml_escaping_and_config_validation(self):
         self.config["name"] = 'Teste & <nome>'
         files = self.build()
-        self.assertIn("Teste &amp; &lt;nome&gt;", files["assets/hero-color-light.svg"])
-        for slug in ("../unsafe", "hero", "hero-color", "ACTIVITY"):
+        self.assertIn("Teste &amp; &lt;nome&gt;", files["assets/hero-flow-light.svg"])
+        for slug in ("../unsafe", "hero", "hero-color", "hero-flow", "calendar-wave", "ACTIVITY"):
             self.config["projects"][0]["slug"] = slug
             with self.subTest(slug=slug), self.assertRaises(ValueError):
                 validate_config(self.config, self.theme)
@@ -201,7 +201,7 @@ class RenderingTests(unittest.TestCase):
         files = build(self.config, self.theme, self.source, self.snapshot, calendar)
         readme = files["README.md"]
         activity = files["assets/activity-light.svg"]
-        self.assertLess(readme.index("assets/calendar-light.svg"), readme.index("## Projetos em destaque"))
+        self.assertLess(readme.index("assets/calendar-wave-light.svg"), readme.index("## Projetos em destaque"))
         self.assertLess(readme.index("## Projetos em destaque"), readme.index("assets/activity-light.svg"))
         self.assertIn("Contribuições por mês em texto", readme)
         self.assertNotIn("Commits por mês", readme)
@@ -214,7 +214,7 @@ class RenderingTests(unittest.TestCase):
         self.assertEqual(len(root.findall('.//s:g[@class="bar"]', ns)), 2)
 
     def test_name_sweep_is_clipped_to_letterforms_and_has_a_static_mode(self):
-        svg = "assets/hero-color-light.svg"
+        svg = "assets/hero-flow-light.svg"
         motion = self.build()[svg]
         static = self.build(static=True)[svg]
         ns = {"s": "http://www.w3.org/2000/svg"}
@@ -231,6 +231,37 @@ class RenderingTests(unittest.TestCase):
         name = still.find('./s:text[@fill="url(#name-ink-gradient)"]', ns)
         self.assertEqual(name.text, self.config["name"])
         self.assertIsNotNone(still.find('.//s:linearGradient[@id="name-ink-gradient"]', ns))
+
+    def test_circuit_signal_follows_the_visible_route_and_has_a_static_mode(self):
+        files = self.build()
+        static_files = self.build(static=True)
+        asset = next(path for path in files if path.startswith("assets/hero-") and path.endswith("-dark.svg"))
+        ns = {"s": "http://www.w3.org/2000/svg"}
+        root = ElementTree.fromstring(files[asset])
+        signal = root.find('./s:path[@class="circuit-signal"]', ns)
+        self.assertIsNotNone(signal)
+        self.assertEqual(signal.get("opacity"), "0")
+        route = signal.get("d")
+        self.assertTrue(any(path.get("d") == route for path in root.findall("s:path", ns) if path is not signal))
+        self.assertNotIn("circuit-signal", static_files[asset])
+
+    def test_calendar_wave_preserves_the_grid_and_has_a_static_mode(self):
+        files = self.build()
+        static_files = self.build(static=True)
+        asset = next(path for path in files if path.startswith("assets/calendar-") and path.endswith("-light.svg"))
+        ns = {"s": "http://www.w3.org/2000/svg"}
+        animated = ElementTree.fromstring(files[asset])
+        still = ElementTree.fromstring(static_files[asset])
+        grid = './s:g[@id="calendar-grid"]/s:path'
+        self.assertEqual(
+            [cell.attrib for cell in animated.findall(grid, ns)],
+            [cell.attrib for cell in still.findall(grid, ns)],
+        )
+        self.assertGreater(len(still.findall(grid, ns)), 1)
+        reference = animated.find('.//s:mask/s:use', ns)
+        self.assertEqual(reference.get("href"), "#calendar-grid")
+        self.assertIn("prefers-reduced-motion: no-preference", files[asset])
+        self.assertNotIn("calendar-wave", static_files[asset])
 
     def test_svg_masks_and_gradients_can_only_reference_local_definitions(self):
         svg = (
@@ -263,6 +294,8 @@ class RenderingTests(unittest.TestCase):
     def test_validator_blocks_active_svg_content(self):
         for markup in ('<script/>', '<foreignObject/>', '<g onclick="bad"/>',
                        '<rect fill="url(https://bad.example/img)"/>',
+                       '<use href="https://bad.example/img#grid"/>',
+                       '<use href="#missing"/>',
                        '<style>@import "bad.css";</style>'):
             with self.subTest(markup=markup), self.assertRaises(ValueError):
                 validate_svg(f'<svg xmlns="http://www.w3.org/2000/svg">{markup}</svg>')

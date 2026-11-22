@@ -1,15 +1,15 @@
 <h1>
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/hero-color-dark.svg">
-  <img src="assets/hero-color-light.svg" width="720" alt="Kaysson Gabriel — Automação e desenvolvimento">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/hero-flow-dark.svg">
+  <img src="assets/hero-flow-light.svg" width="720" alt="Kaysson Gabriel — Automação e desenvolvimento">
 </picture>
 </h1>
 
 ## Contribuições
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/calendar-dark.svg">
-  <img src="assets/calendar-light.svg" width="720" alt="Calendário diário de contribuições no GitHub.">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/calendar-wave-dark.svg">
+  <img src="assets/calendar-wave-light.svg" width="720" alt="Calendário diário de contribuições no GitHub.">
 </picture>
 
 **695 contribuições** no calendário do GitHub (nov/25 a nov/26). A contagem inclui a atividade privada exibida anonimamente no perfil.

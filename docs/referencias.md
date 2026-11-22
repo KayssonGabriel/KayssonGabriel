@@ -23,7 +23,7 @@ Nos perfis reais, [Simon Willison](https://github.com/simonw/simonw) mostra como
 
 ## Direção escolhida
 
-Composição editorial em coluna única, com geometria de linhas e nós inspirada nos módulos e nas filas dos projetos. Fundo creme e verde profundo no tema claro, base grafite e verde-claro no escuro. Uma faixa de cor percorre o nome com pausas entre as passagens. O calendário de contribuições vem logo abaixo do cabeçalho. A tipografia usa fontes do sistema, com texto estático por padrão nos SVGs e textos de apoio em Markdown.
+Composição editorial em coluna única, com geometria de linhas e nós inspirada nos módulos e nas filas dos projetos. Fundo creme e verde profundo no tema claro, base grafite e verde-claro no escuro. A faixa que percorre o nome alterna com um sinal curto no circuito. O calendário de contribuições vem logo abaixo do cabeçalho e recebe uma onda ao carregar. A tipografia usa fontes do sistema, com texto estático por padrão nos SVGs e textos de apoio em Markdown.
 
 O calendário usa a visualização pública sem login para corresponder à grade que visitantes já veem no GitHub. O gráfico de barras soma por mês as contagens diárias do calendário. A busca REST de commits públicos mantém um recorte complementar no arquivo de dados. A contagem de linguagens usa a principal linguagem de cada repositório, com um voto por projeto.
 

@@ -6,7 +6,8 @@ from datetime import date
 
 
 THEMES = ("light", "dark")
-HERO_ASSET = "hero-color"
+HERO_ASSET = "hero-flow"
+CALENDAR_ASSET = "calendar-wave"
 HEAT_COLORS = ("heat_empty", "heat_low", "heat_mid", "heat_high", "heat_peak")
 COLORS = {"background", "surface", "ink", "muted", "line", "accent", "accent_soft", "signal", *HEAT_COLORS}
 ICONS = {"tools", "queue", "branch"}
@@ -47,7 +48,8 @@ def validate_config(config, themes):
         raise ValueError("Nome ou subtítulo inválido para o cabeçalho.")
     if not isinstance(config["projects"], list) or not 1 <= len(config["projects"]) <= 6:
         raise ValueError("Configure entre um e seis projetos em destaque.")
-    used = {"hero", HERO_ASSET, "calendar", "activity", "languages", config["login"].lower()}
+    used = {"hero", "hero-color", HERO_ASSET, "calendar", CALENDAR_ASSET,
+            "activity", "languages", config["login"].lower()}
     for project in config["projects"]:
         fields(project, ("slug", "title", "category", "technology", "description", "icon"), "projeto")
         slug = project["slug"]

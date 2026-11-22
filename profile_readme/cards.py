@@ -19,7 +19,23 @@ def month_label(key):
     return MONTHS[int(key[5:]) - 1]
 
 
-def calendar_card(calendar, colors):
+def calendar_wave(color):
+    return [
+        '<defs><linearGradient id="calendar-wave-ink">',
+        f'<stop offset="0" stop-color="{color}" stop-opacity="0"/>',
+        f'<stop offset=".5" stop-color="{color}"/>',
+        f'<stop offset="1" stop-color="{color}" stop-opacity="0"/>',
+        '</linearGradient>',
+        '<mask id="calendar-wave-cells" maskUnits="userSpaceOnUse" mask-type="alpha" '
+        'x="40" y="121" width="650" height="81"><use href="#calendar-grid"/></mask></defs>',
+        '<g mask="url(#calendar-wave-cells)">',
+        '<rect class="calendar-wave" x="-130" y="121" width="130" height="81" '
+        'fill="url(#calendar-wave-ink)" opacity="0"/>',
+        '</g>',
+    ]
+
+
+def calendar_card(calendar, colors, *, static):
     days = list(daily_activity(calendar))
     total = number(sum(calendar["counts"]))
     range_text = period([days[0][0].strftime("%Y-%m"), days[-1][0].strftime("%Y-%m")])
@@ -41,14 +57,25 @@ def calendar_card(calendar, colors):
         label(40, 83, range_text, 23, colors["muted"], font=MONO),
         label(679, 53, total, min(48, 225 // len(total)), colors["accent"], weight=700, anchor="end"),
         label(679, 83, "no período", 22, colors["muted"], anchor="end"),
-        *month_labels, *squares,
+        *month_labels,
+        '<g id="calendar-grid">', *squares, '</g>',
+        *([] if static else calendar_wave(colors["accent"])),
         label(40, 227, "Um quadrado por dia", 21, colors["muted"]),
         label(544, 227, "Menos", 19, colors["muted"], anchor="end"),
         *(rect(556 + index * 14, 215, 10, 10, colors[key], 1) for index, key in enumerate(HEAT_COLORS)),
         label(638, 227, "Mais", 19, colors["muted"]),
     ]
+    motion = """
+@media (prefers-reduced-motion: no-preference) {
+  .calendar-wave { animation: calendar-wave 1.65s ease-out .18s both; }
+  @keyframes calendar-wave {
+    from { transform: translateX(0px); opacity: .25; }
+    to { transform: translateX(830px); opacity: .25; }
+  }
+}
+"""
     return frame("Calendário de contribuições", f"Total de {total} no período de {range_text}.",
-                 250, colors, body)
+                 250, colors, body, motion="" if static else motion)
 
 
 def period(months):
@@ -114,6 +141,11 @@ def hero(config, c, *, static):
         f'<path d="M548 80H576L628 132H674M554 179H610L655 134V56" fill="none" stroke="{c["line"]}" stroke-width="2"/>',
         f'<path d="{route}" fill="none" stroke="{c["accent"]}" stroke-linecap="round" stroke-width="3"/>',
     ]
+    if not static:
+        artwork.append(
+            f'<path class="circuit-signal" d="{route}" pathLength="100" fill="none" '
+            f'stroke="{c["signal"]}" stroke-linecap="round" stroke-width="4.5" opacity="0"/>'
+        )
     for x, y, radius, fill, stroke in (
         (551, 160, 5, c["background"], c["accent"]),
         (604, 132, 6, c["background"], c["accent"]),
@@ -148,10 +180,16 @@ def hero(config, c, *, static):
     motion = """
 @media (prefers-reduced-motion: no-preference) {
   .name-sweep { animation: name-sweep 7s linear infinite; }
+  .circuit-signal { stroke-dasharray: 9 115; animation: circuit-flow 7s linear infinite; }
   @keyframes name-sweep {
     0%, 3% { transform: translateX(0px); opacity: 1; }
     34% { transform: translateX(700px); opacity: 1; }
     35%, 100% { transform: translateX(700px); opacity: 0; }
+  }
+  @keyframes circuit-flow {
+    0%, 43% { stroke-dashoffset: 10; opacity: 0; }
+    48%, 66% { opacity: 1; }
+    73%, 100% { stroke-dashoffset: -100; opacity: 0; }
   }
 }
 """
