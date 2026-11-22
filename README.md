@@ -12,7 +12,7 @@
   <img src="assets/calendar-wave-loop-light.svg" width="720" alt="Calendário diário de contribuições no GitHub.">
 </picture>
 
-**695 contribuições** no calendário do GitHub (nov/25 a nov/26). A contagem inclui a atividade privada exibida anonimamente no perfil.
+**710 contribuições** no calendário do GitHub (nov/25 a nov/26). A contagem inclui a atividade privada exibida anonimamente no perfil.
 
 Desenvolvo ferramentas para rotinas de cartório, com foco em sincronização de dados e automação de tarefas. Meus projetos públicos incluem scripts PowerShell para suporte no Windows, sistemas distribuídos em Node.js e simuladores de concorrência em Java.
 
@@ -62,14 +62,14 @@ Cinco abordagens para coordenar leitores e escritores sobre um recurso compartil
 | jan/2026 | 0 |
 | fev/2026 | 0 |
 | mar/2026 | 0 |
-| abr/2026 | 65 |
-| mai/2026 | 7 |
+| abr/2026 | 69 |
+| mai/2026 | 10 |
 | jun/2026 | 0 |
 | jul/2026 | 2 |
 | ago/2026 | 31 |
 | set/2026 | 100 |
 | out/2026 | 253 |
-| nov/2026 | 234 |
+| nov/2026 | 242 |
 
 </details>
 
