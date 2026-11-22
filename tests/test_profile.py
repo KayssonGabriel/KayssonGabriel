@@ -187,7 +187,7 @@ class RenderingTests(unittest.TestCase):
         self.config["name"] = 'Teste & <nome>'
         files = self.build()
         self.assertIn("Teste &amp; &lt;nome&gt;", files["assets/hero-flow-light.svg"])
-        for slug in ("../unsafe", "hero", "hero-color", "hero-flow", "calendar-wave", "ACTIVITY"):
+        for slug in ("../unsafe", "hero", "hero-color", "hero-flow", "calendar-wave", "calendar-wave-loop", "ACTIVITY"):
             self.config["projects"][0]["slug"] = slug
             with self.subTest(slug=slug), self.assertRaises(ValueError):
                 validate_config(self.config, self.theme)
@@ -201,7 +201,7 @@ class RenderingTests(unittest.TestCase):
         files = build(self.config, self.theme, self.source, self.snapshot, calendar)
         readme = files["README.md"]
         activity = files["assets/activity-light.svg"]
-        self.assertLess(readme.index("assets/calendar-wave-light.svg"), readme.index("## Projetos em destaque"))
+        self.assertLess(readme.index("assets/calendar-wave-loop-light.svg"), readme.index("## Projetos em destaque"))
         self.assertLess(readme.index("## Projetos em destaque"), readme.index("assets/activity-light.svg"))
         self.assertIn("Contribuições por mês em texto", readme)
         self.assertNotIn("Commits por mês", readme)
@@ -261,6 +261,7 @@ class RenderingTests(unittest.TestCase):
         reference = animated.find('.//s:mask/s:use', ns)
         self.assertEqual(reference.get("href"), "#calendar-grid")
         self.assertIn("prefers-reduced-motion: no-preference", files[asset])
+        self.assertIn("animation: calendar-wave 14s ease-out .18s infinite", files[asset])
         self.assertNotIn("calendar-wave", static_files[asset])
 
     def test_svg_masks_and_gradients_can_only_reference_local_definitions(self):

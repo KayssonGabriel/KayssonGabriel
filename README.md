@@ -8,8 +8,8 @@
 ## Contribuições
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/calendar-wave-dark.svg">
-  <img src="assets/calendar-wave-light.svg" width="720" alt="Calendário diário de contribuições no GitHub.">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/calendar-wave-loop-dark.svg">
+  <img src="assets/calendar-wave-loop-light.svg" width="720" alt="Calendário diário de contribuições no GitHub.">
 </picture>
 
 **695 contribuições** no calendário do GitHub (nov/25 a nov/26). A contagem inclui a atividade privada exibida anonimamente no perfil.

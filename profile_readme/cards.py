@@ -67,10 +67,11 @@ def calendar_card(calendar, colors, *, static):
     ]
     motion = """
 @media (prefers-reduced-motion: no-preference) {
-  .calendar-wave { animation: calendar-wave 1.65s ease-out .18s both; }
+  .calendar-wave { animation: calendar-wave 14s ease-out .18s infinite; }
   @keyframes calendar-wave {
-    from { transform: translateX(0px); opacity: .25; }
-    to { transform: translateX(830px); opacity: .25; }
+    0% { transform: translateX(0px); opacity: .25; }
+    12% { transform: translateX(830px); opacity: .25; }
+    13%, 100% { transform: translateX(830px); opacity: 0; }
   }
 }
 """

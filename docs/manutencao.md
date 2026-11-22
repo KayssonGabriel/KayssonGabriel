@@ -40,7 +40,7 @@ python -m profile_readme --refresh
 python -m profile_readme --static --output preview/static
 ~~~
 
-O comando sem opções recria os artefatos a partir do JSON local. A opção de atualização consulta dados reais. No cabeçalho, a faixa de cor no nome é seguida por um sinal no circuito a cada sete segundos. O calendário recebe uma onda curta ao carregar. Com movimento reduzido, os efeitos são desativados e o nome mantém o degradê fixo. O modo estático gera esse mesmo conteúdo sem animações para inspeção. Os cartões têm texto alternativo. As contagens mensais e as linguagens também estão disponíveis em tabelas.
+O comando sem opções recria os artefatos a partir do JSON local. A opção de atualização consulta dados reais. No cabeçalho, a faixa de cor no nome é seguida por um sinal no circuito a cada sete segundos. A onda do calendário dura cerca de dois segundos e se repete a cada 14 segundos. Com movimento reduzido, os efeitos são desativados e o nome mantém o degradê fixo. O modo estático gera esse mesmo conteúdo sem animações para inspeção. Os cartões têm texto alternativo. As contagens mensais e as linguagens também estão disponíveis em tabelas.
 
 ## GitHub Actions
 
