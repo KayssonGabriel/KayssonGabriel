@@ -14,7 +14,7 @@
 
 **695 contribuições** no calendário do GitHub (nov/25 a nov/26). A contagem inclui a atividade privada exibida anonimamente no perfil.
 
-Desenvolvo ferramentas de automação para Windows com PowerShell. Também exploro sistemas distribuídos em Node.js e concorrência em Java.
+Desenvolvo ferramentas para rotinas de cartório, com foco em sincronização de dados e automação de tarefas. Meus projetos públicos incluem scripts PowerShell para suporte no Windows, sistemas distribuídos em Node.js e simuladores de concorrência em Java.
 
 ## Projetos em destaque
 
