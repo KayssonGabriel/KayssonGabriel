@@ -1,5 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 145" width="720" height="145" role="img" aria-labelledby="title details">
 <title id="title">Leitores e escritores</title><desc id="details">Cinco abordagens para coordenar leitores e escritores sobre um recurso compartilhado, de semáforos à troca de mensagens.</desc>
+<style>@media (prefers-reduced-motion: no-preference) {
+  .queue-step { animation: queue-step 10s linear infinite; }
+  @keyframes queue-step {
+    0%, 52% { transform: translateY(0); opacity: 0; }
+    55%, 57% { transform: translateY(0); opacity: 1; }
+    62%, 64% { transform: translateY(12px); opacity: 1; }
+    69%, 71% { transform: translateY(24px); opacity: 1; }
+    76%, 100% { transform: translateY(24px); opacity: 0; }
+  }
+}
+</style>
 <rect x="1" y="1" width="718" height="143" rx="20" fill="#F7F8F1" stroke="#BDD1C4"/>
 <rect x="31" y="32" width="89" height="80" rx="13" fill="#EDF3E9" stroke="#BDD1C4"/>
 <g transform="translate(48 46)">
@@ -7,6 +18,7 @@
 <circle cx="9" cy="14" r="3" fill="#895219"/>
 <circle cx="9" cy="26" r="3" fill="#895219"/>
 <circle cx="9" cy="38" r="3" fill="#895219"/>
+<circle class="queue-step" cx="9" cy="14" r="4.5" fill="#086954" opacity="0"/>
 </g>
 <text x="146" y="42" fill="#086954" font-size="22" font-family="Consolas, Liberation Mono, monospace" font-weight="600" text-anchor="start" letter-spacing="0">Concorrência em Java</text>
 <text x="144" y="84" fill="#162A26" font-size="40" font-family="Georgia, Times New Roman, serif" font-weight="700" text-anchor="start" letter-spacing="0">Leitores e escritores</text>

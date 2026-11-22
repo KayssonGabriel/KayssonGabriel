@@ -20,8 +20,8 @@ Desenvolvo ferramentas para rotinas de cartório, com foco em sincronização de
 
 <a href="https://github.com/KayssonGabriel/SD_HUB-CD">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/SD_HUB-CD-dark.svg">
-  <img src="assets/SD_HUB-CD-light.svg" width="720" alt="Hub e centros de distribuição — Node.js · Express · MongoDB">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/project-SD_HUB-CD-dark.svg">
+  <img src="assets/project-SD_HUB-CD-light.svg" width="720" alt="Hub e centros de distribuição — Node.js · Express · MongoDB">
 </picture>
 </a>
 
@@ -29,8 +29,8 @@ Protótipo que conecta centros de distribuição, consulta estoques e registra t
 
 <a href="https://github.com/KayssonGabriel/it-support-toolkit">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/it-support-toolkit-dark.svg">
-  <img src="assets/it-support-toolkit-light.svg" width="720" alt="IT Support Toolkit — PowerShell · Batch">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/project-it-support-toolkit-dark.svg">
+  <img src="assets/project-it-support-toolkit-light.svg" width="720" alt="IT Support Toolkit — PowerShell · Batch">
 </picture>
 </a>
 
@@ -38,8 +38,8 @@ Ferramentas modulares para manutenção de rede, impressão e drivers no Windows
 
 <a href="https://github.com/KayssonGabriel/Simuladores-Leitores-Escritores-SO">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/Simuladores-Leitores-Escritores-SO-dark.svg">
-  <img src="assets/Simuladores-Leitores-Escritores-SO-light.svg" width="720" alt="Leitores e escritores — Java · java.util.concurrent">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/project-Simuladores-Leitores-Escritores-SO-dark.svg">
+  <img src="assets/project-Simuladores-Leitores-Escritores-SO-light.svg" width="720" alt="Leitores e escritores — Java · java.util.concurrent">
 </picture>
 </a>
 
@@ -76,8 +76,8 @@ Cinco abordagens para coordenar leitores e escritores sobre um recurso compartil
 ## Linguagens
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/languages-dark.svg">
-  <img src="assets/languages-light.svg" width="720" alt="Gráfico das linguagens predominantes nos repositórios próprios.">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/languages-flow-dark.svg">
+  <img src="assets/languages-flow-light.svg" width="720" alt="Gráfico das linguagens predominantes nos repositórios próprios.">
 </picture>
 
 **51 repositórios próprios** · 1 fork público. Cada repositório próprio com linguagem identificada conta uma vez no gráfico.

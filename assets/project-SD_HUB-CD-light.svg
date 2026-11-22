@@ -1,5 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 145" width="720" height="145" role="img" aria-labelledby="title details">
 <title id="title">Hub e centros de distribuição</title><desc id="details">Protótipo que conecta centros de distribuição, consulta estoques e registra transações entre serviços.</desc>
+<style>@media (prefers-reduced-motion: no-preference) {
+  .hub-entry { animation: hub-entry 10s linear infinite; }
+  .hub-upper { animation: hub-upper 10s linear infinite; }
+  .hub-lower { animation: hub-lower 10s linear infinite; }
+  @keyframes hub-entry {
+    0%, 8% { transform: translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    18% { transform: translateX(15px); opacity: 1; }
+    19%, 100% { transform: translateX(15px); opacity: 0; }
+  }
+  @keyframes hub-upper {
+    0%, 17% { transform: translate(0, 0); opacity: 0; }
+    18% { opacity: 1; }
+    28% { transform: translate(16px, -13px); opacity: 1; }
+    32%, 100% { transform: translate(16px, -13px); opacity: 0; }
+  }
+  @keyframes hub-lower {
+    0%, 17% { transform: translate(0, 0); opacity: 0; }
+    18% { opacity: 1; }
+    28% { transform: translate(16px, 13px); opacity: 1; }
+    32%, 100% { transform: translate(16px, 13px); opacity: 0; }
+  }
+}
+</style>
 <rect x="1" y="1" width="718" height="143" rx="20" fill="#F7F8F1" stroke="#BDD1C4"/>
 <rect x="31" y="32" width="89" height="80" rx="13" fill="#EDF3E9" stroke="#BDD1C4"/>
 <g transform="translate(48 46)">
@@ -8,6 +32,9 @@
 <circle cx="12" cy="38" r="3" fill="#895219"/>
 <circle cx="43" cy="13" r="3" fill="#895219"/>
 <circle cx="43" cy="39" r="3" fill="#895219"/>
+<circle class="hub-entry" cx="12" cy="26" r="3.5" fill="#895219" opacity="0"/>
+<circle class="hub-upper" cx="27" cy="26" r="3.5" fill="#895219" opacity="0"/>
+<circle class="hub-lower" cx="27" cy="26" r="3.5" fill="#895219" opacity="0"/>
 </g>
 <text x="146" y="42" fill="#086954" font-size="22" font-family="Consolas, Liberation Mono, monospace" font-weight="600" text-anchor="start" letter-spacing="0">Sistemas distribuídos</text>
 <text x="144" y="84" fill="#162A26" font-size="32" font-family="Georgia, Times New Roman, serif" font-weight="700" text-anchor="start" letter-spacing="0">Hub e centros de distribuição</text>

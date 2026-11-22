@@ -212,13 +212,75 @@ PROJECT_ICONS = {
     ),
 }
 
+PROJECT_MOTIONS = {
+    "branch": (
+        (
+            '<circle class="hub-entry" cx="12" cy="26" r="3.5" fill="{signal}" opacity="0"/>',
+            '<circle class="hub-upper" cx="27" cy="26" r="3.5" fill="{signal}" opacity="0"/>',
+            '<circle class="hub-lower" cx="27" cy="26" r="3.5" fill="{signal}" opacity="0"/>',
+        ),
+        """
+  .hub-entry { animation: hub-entry 10s linear infinite; }
+  .hub-upper { animation: hub-upper 10s linear infinite; }
+  .hub-lower { animation: hub-lower 10s linear infinite; }
+  @keyframes hub-entry {
+    0%, 8% { transform: translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    18% { transform: translateX(15px); opacity: 1; }
+    19%, 100% { transform: translateX(15px); opacity: 0; }
+  }
+  @keyframes hub-upper {
+    0%, 17% { transform: translate(0, 0); opacity: 0; }
+    18% { opacity: 1; }
+    28% { transform: translate(16px, -13px); opacity: 1; }
+    32%, 100% { transform: translate(16px, -13px); opacity: 0; }
+  }
+  @keyframes hub-lower {
+    0%, 17% { transform: translate(0, 0); opacity: 0; }
+    18% { opacity: 1; }
+    28% { transform: translate(16px, 13px); opacity: 1; }
+    32%, 100% { transform: translate(16px, 13px); opacity: 0; }
+  }
+""",
+    ),
+    "tools": (
+        ('<rect class="terminal-cursor" x="27" y="29.5" width="5" height="5" rx="1.5" '
+         'fill="{signal}" opacity="0"/>',),
+        """
+  .terminal-cursor { animation: terminal-cursor 10s ease-in-out infinite; }
+  @keyframes terminal-cursor {
+    0%, 32% { transform: translateX(0); opacity: 0; }
+    35% { opacity: 1; }
+    45% { transform: translateX(7px); opacity: 1; }
+    50%, 100% { transform: translateX(7px); opacity: 0; }
+  }
+""",
+    ),
+    "queue": (
+        ('<circle class="queue-step" cx="9" cy="14" r="4.5" fill="{accent}" opacity="0"/>',),
+        """
+  .queue-step { animation: queue-step 10s linear infinite; }
+  @keyframes queue-step {
+    0%, 52% { transform: translateY(0); opacity: 0; }
+    55%, 57% { transform: translateY(0); opacity: 1; }
+    62%, 64% { transform: translateY(12px); opacity: 1; }
+    69%, 71% { transform: translateY(24px); opacity: 1; }
+    76%, 100% { transform: translateY(24px); opacity: 0; }
+  }
+""",
+    ),
+}
 
-def project_card(project, c):
-    path, dots = PROJECT_ICONS[project["icon"]]
+
+def project_card(project, c, *, static):
+    kind = project["icon"]
+    path, dots = PROJECT_ICONS[kind]
+    markers, keyframes = PROJECT_MOTIONS[kind]
     icon = [
         '<g transform="translate(48 46)">',
         f'<path d="{path}" fill="none" stroke="{c["accent"]}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>',
         *(f'<circle cx="{x}" cy="{y}" r="3" fill="{c["signal"]}"/>' for x, y in dots),
+        *(marker.format(**c) for marker in markers if not static),
         "</g>",
     ]
     title_size = min(40, 940 // len(project["title"]))
@@ -232,7 +294,8 @@ def project_card(project, c):
         f'<path d="M0 25L25 0M10 0H25V15" stroke="{c["accent"]}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
         "</g>",
     ]
-    return frame(project["title"], project["description"], 145, c, body)
+    motion = "" if static else f"@media (prefers-reduced-motion: no-preference) {{{keyframes}}}\n"
+    return frame(project["title"], project["description"], 145, c, body, motion=motion)
 
 
 def activity_card(months, c, *, static):
@@ -282,13 +345,14 @@ def language_rows(counts):
     return [*rows[:5], ("Demais", sum(value for _, value in rows[5:]))]
 
 
-def language_card(counts, c):
+def language_card(counts, c, *, static):
     rows = language_rows(counts)
     body = [
         label(38, 57, "Linguagens dos projetos", 38, c["ink"], font=SERIF, weight=700),
         label(40, 93, "Principal linguagem por repositório", 26, c["muted"]),
         line(40, 116, 680, 116, c["line"]),
     ]
+    glints = []
     if not rows:
         body.append(label(40, 165, "Nenhuma linguagem identificada", 26, c["muted"]))
         height = 197
@@ -296,13 +360,42 @@ def language_card(counts, c):
         maximum = max(value for _, value in rows)
         for index, (name, value) in enumerate(rows):
             y = 145 + index * 43
+            width = max(7, round(343 * value / maximum))
             short_name = name if len(name) < 18 else f"{name[:16]}…"
             body.extend([
                 label(40, y + 15, short_name, min(25, 245 // len(short_name)), c["ink"], weight=600),
                 rect(271, y - 3, 343, 16, c["accent_soft"], 8),
-                rect(271, y - 3, max(7, round(343 * value / maximum)), 16, c["accent"], 8),
+                rect(271, y - 3, width, 16, c["accent"], 8),
                 label(679, y + 15, number(value), 26, c["accent"], font=MONO, weight=700, anchor="end"),
             ])
+            if not static:
+                glints.append(
+                    f'<rect x="271" y="{y - 3}" width="{width}" height="16" rx="8" '
+                    f'fill="{c["signal"]}" opacity="0"/>'
+                )
         height = 164 + len(rows) * 43
+    motion = ""
+    if glints:
+        body.extend(['<g class="language-glints">', *glints, '</g>'])
+        delays = "\n".join(
+            f"  .language-glints rect:nth-child({index + 1}) {{ animation-delay: {index * .12:.2f}s; }}"
+            for index in range(1, len(glints))
+        )
+        motion = f"""
+@media (prefers-reduced-motion: no-preference) {{
+  .language-glints rect {{
+    transform-box: fill-box;
+    transform-origin: left center;
+    animation: language-glint 12s ease-in-out infinite;
+  }}
+{delays}
+  @keyframes language-glint {{
+    0%, 27% {{ transform: scaleX(.08); opacity: 0; }}
+    32% {{ opacity: .4; }}
+    39% {{ transform: scaleX(1); opacity: .3; }}
+    43%, 100% {{ transform: scaleX(1); opacity: 0; }}
+  }}
+}}
+"""
     return frame("Linguagens dos projetos", "Contagem por linguagem principal dos repositórios próprios.",
-                 height, c, body)
+                 height, c, body, motion=motion)

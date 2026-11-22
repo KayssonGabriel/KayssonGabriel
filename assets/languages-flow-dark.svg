@@ -1,5 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 379" width="720" height="379" role="img" aria-labelledby="title details">
 <title id="title">Linguagens dos projetos</title><desc id="details">Contagem por linguagem principal dos repositórios próprios.</desc>
+<style>
+@media (prefers-reduced-motion: no-preference) {
+  .language-glints rect {
+    transform-box: fill-box;
+    transform-origin: left center;
+    animation: language-glint 12s ease-in-out infinite;
+  }
+  .language-glints rect:nth-child(2) { animation-delay: 0.12s; }
+  .language-glints rect:nth-child(3) { animation-delay: 0.24s; }
+  .language-glints rect:nth-child(4) { animation-delay: 0.36s; }
+  .language-glints rect:nth-child(5) { animation-delay: 0.48s; }
+  @keyframes language-glint {
+    0%, 27% { transform: scaleX(.08); opacity: 0; }
+    32% { opacity: .4; }
+    39% { transform: scaleX(1); opacity: .3; }
+    43%, 100% { transform: scaleX(1); opacity: 0; }
+  }
+}
+</style>
 <rect x="1" y="1" width="718" height="377" rx="20" fill="#111F1D" stroke="#3D6053"/>
 <text x="38" y="57" fill="#F0F6EB" font-size="38" font-family="Georgia, Times New Roman, serif" font-weight="700" text-anchor="start" letter-spacing="0">Linguagens dos projetos</text>
 <text x="40" y="93" fill="#A8C3B6" font-size="26" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="400" text-anchor="start" letter-spacing="0">Principal linguagem por repositório</text>
@@ -24,4 +43,11 @@
 <rect x="271" y="314" width="343" height="16" rx="8" fill="#264539" stroke="none"/>
 <rect x="271" y="314" width="23" height="16" rx="8" fill="#86E3B6" stroke="none"/>
 <text x="679" y="332" fill="#86E3B6" font-size="26" font-family="Consolas, Liberation Mono, monospace" font-weight="700" text-anchor="end" letter-spacing="0">2</text>
+<g class="language-glints">
+<rect x="271" y="142" width="343" height="16" rx="8" fill="#FFD197" opacity="0"/>
+<rect x="271" y="185" width="114" height="16" rx="8" fill="#FFD197" opacity="0"/>
+<rect x="271" y="228" width="57" height="16" rx="8" fill="#FFD197" opacity="0"/>
+<rect x="271" y="271" width="46" height="16" rx="8" fill="#FFD197" opacity="0"/>
+<rect x="271" y="314" width="23" height="16" rx="8" fill="#FFD197" opacity="0"/>
+</g>
 </svg>

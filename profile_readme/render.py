@@ -10,7 +10,7 @@ from xml.etree import ElementTree
 
 from .calendar import monthly_contributions, validate_calendar
 from .cards import activity_card, calendar_card, hero, language_card, month_label, number, period, project_card
-from .model import CALENDAR_ASSET, HERO_ASSET, THEMES, validate_config, validate_snapshot
+from .model import CALENDAR_ASSET, HERO_ASSET, LANGUAGES_ASSET, THEMES, validate_config, validate_snapshot
 
 SVG_NAMESPACE = "{http://www.w3.org/2000/svg}"
 SVG_TAGS = {
@@ -76,7 +76,7 @@ def assemble_readme(template, config, snapshot, months):
     projects = []
     for project in config["projects"]:
         alt = f"{project['title']} — {project['technology']}"
-        art = picture(project["slug"], alt)
+        art = picture(f"project-{project['slug']}", alt)
         projects.append(
             f'<a href="{base_url}/{project["slug"]}">\n{art}\n</a>\n\n'
             + markdown_text(project["description"])
@@ -110,7 +110,7 @@ def assemble_readme(template, config, snapshot, months):
         ),
         projects="\n\n".join(projects),
         activity=picture("activity", f"Gráfico de contribuições por mês, de {period(months)}."),
-        languages=picture("languages", "Gráfico das linguagens predominantes nos repositórios próprios."),
+        languages=picture(LANGUAGES_ASSET, "Gráfico das linguagens predominantes nos repositórios próprios."),
         language_summary=language_summary,
         activity_table="\n".join(activity_table),
         language_table="\n".join(language_table),
@@ -130,8 +130,9 @@ def build(config, themes, template, snapshot, calendar, *, static=False):
             HERO_ASSET: hero(config, colors, static=static),
             CALENDAR_ASSET: calendar_card(calendar, colors, static=static),
             "activity": activity_card(months, colors, static=static),
-            "languages": language_card(snapshot["languages"], colors),
-            **{project["slug"]: project_card(project, colors) for project in config["projects"]},
+            LANGUAGES_ASSET: language_card(snapshot["languages"], colors, static=static),
+            **{f"project-{project['slug']}": project_card(project, colors, static=static)
+               for project in config["projects"]},
         }
         for name, markup in cards.items():
             validate_svg(markup)

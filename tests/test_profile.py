@@ -264,6 +264,40 @@ class RenderingTests(unittest.TestCase):
         self.assertIn("animation: calendar-wave 14s ease-out .18s infinite", files[asset])
         self.assertNotIn("calendar-wave", static_files[asset])
 
+    def test_project_icon_animations_follow_project_type(self):
+        files = self.build()
+        still = self.build(static=True)
+        keyframes = {"branch": "hub-entry", "tools": "terminal-cursor", "queue": "queue-step"}
+        for project in self.config["projects"]:
+            with self.subTest(project=project["slug"]):
+                asset = f'assets/project-{project["slug"]}-dark.svg'
+                self.assertIn(asset, files.keys())
+                self.assertIn(asset, files["README.md"])
+                self.assertIn(f'@keyframes {keyframes[project["icon"]]}', files[asset])
+                self.assertIn("prefers-reduced-motion: no-preference", files[asset])
+                self.assertNotIn("@keyframes", still[asset])
+                self.assertIn(project["title"], still[asset])
+
+    def test_language_motion_keeps_real_bar_lengths_and_numbers(self):
+        self.snapshot["repositories"]["own"] = 5
+        self.snapshot["languages"] = {"Java": 4, "PowerShell": 1}
+        asset = "assets/languages-flow-light.svg"
+        files = self.build()
+        static_files = self.build(static=True)
+        self.assertIn(asset, files.keys())
+        animated = ElementTree.fromstring(files[asset])
+        still = ElementTree.fromstring(static_files[asset])
+        ns = {"s": "http://www.w3.org/2000/svg"}
+        for shape in ("rect", "text"):
+            self.assertEqual(
+                [(item.attrib, item.text) for item in animated.findall(f"s:{shape}", ns)],
+                [(item.attrib, item.text) for item in still.findall(f"s:{shape}", ns)],
+            )
+        glints = animated.findall('./s:g[@class="language-glints"]/s:rect', ns)
+        self.assertEqual(len(glints), 2)
+        self.assertTrue(all(glint.get("opacity") == "0" for glint in glints))
+        self.assertNotIn("language-glints", static_files[asset])
+
     def test_svg_masks_and_gradients_can_only_reference_local_definitions(self):
         svg = (
             '<svg xmlns="http://www.w3.org/2000/svg"><defs>'
