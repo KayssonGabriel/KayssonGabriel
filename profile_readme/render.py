@@ -10,7 +10,7 @@ from xml.etree import ElementTree
 
 from .calendar import monthly_contributions, validate_calendar
 from .cards import activity_card, calendar_card, hero, language_card, month_label, number, period, project_card
-from .model import THEMES, validate_config, validate_snapshot
+from .model import HERO_ASSET, THEMES, validate_config, validate_snapshot
 
 SVG_NAMESPACE = "{http://www.w3.org/2000/svg}"
 SVG_TAGS = {
@@ -96,7 +96,7 @@ def assemble_readme(template, config, snapshot, months):
     ]
     unit = "contribuição" if total == 1 else "contribuições"
     return Template(template).substitute(
-        hero=picture("hero", f"{config['name']} — {config['headline']}"),
+        hero=picture(HERO_ASSET, f"{config['name']} — {config['headline']}"),
         calendar=picture("calendar", "Calendário diário de contribuições no GitHub."),
         calendar_summary=(
             f"**{number(total)} {unit}** no calendário do GitHub ({period(months)}). "
@@ -121,7 +121,7 @@ def build(config, themes, template, snapshot, calendar, *, static=False):
     for theme in THEMES:
         colors = themes[theme]
         cards = {
-            "hero": hero(config, colors, static=static),
+            HERO_ASSET: hero(config, colors, static=static),
             "calendar": calendar_card(calendar, colors),
             "activity": activity_card(months, colors, static=static),
             "languages": language_card(snapshot["languages"], colors),

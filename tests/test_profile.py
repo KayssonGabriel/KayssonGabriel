@@ -173,11 +173,11 @@ class RenderingTests(unittest.TestCase):
         files = self.build()
         self.assertEqual(len(files), 17)
         self.assertIn("data/public.json", files)
-        self.assertIn("assets/hero-dark.svg", files["README.md"])
-        self.assertIn("prefers-reduced-motion", files["assets/hero-light.svg"])
+        self.assertIn("assets/hero-color-dark.svg", files["README.md"])
+        self.assertIn("prefers-reduced-motion", files["assets/hero-color-light.svg"])
         self.assertIn("3 contribuições", files["README.md"])
         static_files = self.build(static=True)
-        self.assertNotIn("@keyframes", static_files["assets/hero-light.svg"])
+        self.assertNotIn("@keyframes", static_files["assets/hero-color-light.svg"])
         for path, source in files.items():
             if path.endswith(".svg"):
                 self.assertEqual(ElementTree.fromstring(source).tag, "{http://www.w3.org/2000/svg}svg")
@@ -186,8 +186,8 @@ class RenderingTests(unittest.TestCase):
     def test_xml_escaping_and_config_validation(self):
         self.config["name"] = 'Teste & <nome>'
         files = self.build()
-        self.assertIn("Teste &amp; &lt;nome&gt;", files["assets/hero-light.svg"])
-        for slug in ("../unsafe", "hero", "ACTIVITY"):
+        self.assertIn("Teste &amp; &lt;nome&gt;", files["assets/hero-color-light.svg"])
+        for slug in ("../unsafe", "hero", "hero-color", "ACTIVITY"):
             self.config["projects"][0]["slug"] = slug
             with self.subTest(slug=slug), self.assertRaises(ValueError):
                 validate_config(self.config, self.theme)
@@ -214,7 +214,7 @@ class RenderingTests(unittest.TestCase):
         self.assertEqual(len(root.findall('.//s:g[@class="bar"]', ns)), 2)
 
     def test_name_sweep_is_clipped_to_letterforms_and_has_a_static_mode(self):
-        svg = "assets/hero-light.svg"
+        svg = "assets/hero-color-light.svg"
         motion = self.build()[svg]
         static = self.build(static=True)[svg]
         ns = {"s": "http://www.w3.org/2000/svg"}

@@ -1,7 +1,7 @@
 <h1>
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg">
-  <img src="assets/hero-light.svg" width="720" alt="Kaysson Gabriel — Automação e desenvolvimento">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/hero-color-dark.svg">
+  <img src="assets/hero-color-light.svg" width="720" alt="Kaysson Gabriel — Automação e desenvolvimento">
 </picture>
 </h1>
 
