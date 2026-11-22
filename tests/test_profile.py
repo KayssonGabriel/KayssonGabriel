@@ -225,8 +225,12 @@ class RenderingTests(unittest.TestCase):
         group = root.find(f'.//s:g[@mask="url(#{mask.get("id")})"]', ns)
         self.assertEqual(group.find("s:rect", ns).get("opacity"), "0")
         self.assertIn("prefers-reduced-motion: no-preference", motion)
+        self.assertIn("animation: name-sweep 7s linear infinite", motion)
         self.assertNotIn("<mask", static)
-        self.assertIn(self.config["name"], static)
+        still = ElementTree.fromstring(static)
+        name = still.find('./s:text[@fill="url(#name-ink-gradient)"]', ns)
+        self.assertEqual(name.text, self.config["name"])
+        self.assertIsNotNone(still.find('.//s:linearGradient[@id="name-ink-gradient"]', ns))
 
     def test_svg_masks_and_gradients_can_only_reference_local_definitions(self):
         svg = (

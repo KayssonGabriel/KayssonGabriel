@@ -40,7 +40,7 @@ python -m profile_readme --refresh
 python -m profile_readme --static --output preview/static
 ~~~
 
-O comando sem opções recria os artefatos a partir do JSON local. A opção de atualização consulta dados reais. O modo estático gera outro conjunto para inspeção, com o mesmo conteúdo essencial. Uma faixa de cor passa pelo nome no cabeçalho quando o navegador permite animações. Os cartões têm texto alternativo. As contagens mensais e as linguagens também estão disponíveis em tabelas.
+O comando sem opções recria os artefatos a partir do JSON local. A opção de atualização consulta dados reais. O modo estático gera outro conjunto para inspeção, com o mesmo conteúdo essencial. A faixa de cor no nome passa a cada sete segundos quando o navegador permite animações. Com movimento reduzido, o nome usa um degradê fixo. Os cartões têm texto alternativo. As contagens mensais e as linguagens também estão disponíveis em tabelas.
 
 ## GitHub Actions
 

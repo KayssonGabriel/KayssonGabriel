@@ -124,7 +124,13 @@ def hero(config, c, *, static):
     name_size = min(60, 900 // len(config["name"]))
     subtitle_size = min(31, 840 // len(config["headline"]))
     name_style = {"font": SERIF, "weight": 700, "spacing": -2}
-    name = label(43, 132, config["name"], name_size, c["ink"], **name_style)
+    name_ink = [
+        '<defs><linearGradient id="name-ink-gradient">',
+        f'<stop offset=".62" stop-color="{c["ink"]}"/>',
+        f'<stop offset="1" stop-color="{c["accent"]}"/>',
+        "</linearGradient></defs>",
+    ]
+    name = label(43, 132, config["name"], name_size, "url(#name-ink-gradient)", **name_style)
     sweep = [] if static else name_sweep(
         label(43, 132, config["name"], name_size, "#FFFFFF", **name_style), c
     )
@@ -132,6 +138,7 @@ def hero(config, c, *, static):
         *artwork,
         f'<circle cx="49" cy="54" r="5" fill="{c["signal"]}"/>',
         label(65, 62, f"@{config['login']}", 23, c["accent"], font=MONO),
+        *name_ink,
         name,
         *sweep,
         label(45, 174, config["headline"], subtitle_size, c["muted"]),
@@ -140,10 +147,11 @@ def hero(config, c, *, static):
     ]
     motion = """
 @media (prefers-reduced-motion: no-preference) {
-  .name-sweep { animation: name-sweep 2.25s ease-in-out .2s both; }
+  .name-sweep { animation: name-sweep 7s linear infinite; }
   @keyframes name-sweep {
-    0% { transform: translateX(0px); opacity: 1; }
-    100% { transform: translateX(700px); opacity: 1; }
+    0%, 3% { transform: translateX(0px); opacity: 1; }
+    34% { transform: translateX(700px); opacity: 1; }
+    35%, 100% { transform: translateX(700px); opacity: 0; }
   }
 }
 """
