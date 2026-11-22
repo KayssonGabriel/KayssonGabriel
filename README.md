@@ -95,4 +95,13 @@ Cinco abordagens para coordenar leitores e escritores sobre um recurso compartil
 
 </details>
 
+<details>
+<summary>Como este perfil é gerado</summary>
+
+Este repositório contém o perfil público e o código que gera o README e os cartões SVG. As configurações ficam em [config/](config/) e os dados da geração offline em [data/](data/).
+
+Com Python 3.11 ou superior, execute `python -m profile_readme` na raiz para renderizar os arquivos e `python -m profile_readme --check` para conferir o resultado.
+
+</details>
+
 [Repositórios públicos](https://github.com/KayssonGabriel?tab=repositories) · [Metodologia e manutenção](docs/manutencao.md)
