@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" width="720" height="300" role="img" aria-labelledby="title details">
-<title id="title">Contribuições por mês</title><desc id="details">736 contribuições de nov/25 a nov/26.</desc>
+<title id="title">Contribuições por mês</title><desc id="details">738 contribuições de nov/25 a nov/26.</desc>
 <style>
 @media (prefers-reduced-motion: no-preference) {
   .bar { transform-origin: center bottom; transform-box: fill-box; animation: grow .75s ease-out both; }
@@ -9,7 +9,7 @@
 <rect x="1" y="1" width="718" height="298" rx="20" fill="#F7F8F1" stroke="#BDD1C4"/>
 <text x="38" y="57" fill="#162A26" font-size="38" font-family="Georgia, Times New Roman, serif" font-weight="700" text-anchor="start" letter-spacing="0">Contribuições por mês</text>
 <text x="40" y="93" fill="#425B53" font-size="25" font-family="Consolas, Liberation Mono, monospace" font-weight="400" text-anchor="start" letter-spacing="0">nov/25 a nov/26</text>
-<text x="679" y="59" fill="#086954" font-size="50" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="700" text-anchor="end" letter-spacing="0">736</text>
+<text x="679" y="59" fill="#086954" font-size="50" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="700" text-anchor="end" letter-spacing="0">738</text>
 <text x="679" y="94" fill="#425B53" font-size="25" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="400" text-anchor="end" letter-spacing="0">no período</text>
 <path d="M40 116L680 116" fill="none" stroke="#BDD1C4"/>
 <path d="M40 153L680 153" fill="none" stroke="#BDD1C4"/>
@@ -56,13 +56,13 @@
 <text x="564" y="198" fill="#162A26" font-size="24" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="600" text-anchor="middle" letter-spacing="0">100</text>
 <text x="564" y="272" fill="#425B53" font-size="23" font-family="Consolas, Liberation Mono, monospace" font-weight="400" text-anchor="middle" letter-spacing="0">set</text>
 <g class="bar">
-<rect x="603" y="156" width="24" height="84" rx="5" fill="#086954" stroke="none"/>
+<rect x="603" y="157" width="24" height="83" rx="5" fill="#086954" stroke="none"/>
 </g>
-<text x="615" y="147" fill="#162A26" font-size="24" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="600" text-anchor="middle" letter-spacing="0">253</text>
+<text x="615" y="148" fill="#162A26" font-size="24" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="600" text-anchor="middle" letter-spacing="0">253</text>
 <text x="615" y="272" fill="#425B53" font-size="23" font-family="Consolas, Liberation Mono, monospace" font-weight="400" text-anchor="middle" letter-spacing="0">out</text>
 <g class="bar">
 <rect x="654" y="151" width="24" height="89" rx="5" fill="#895219" stroke="none"/>
 </g>
-<text x="666" y="142" fill="#162A26" font-size="24" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="600" text-anchor="middle" letter-spacing="0">268</text>
+<text x="666" y="142" fill="#162A26" font-size="24" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="600" text-anchor="middle" letter-spacing="0">270</text>
 <text x="666" y="272" fill="#425B53" font-size="23" font-family="Consolas, Liberation Mono, monospace" font-weight="400" text-anchor="middle" letter-spacing="0">nov</text>
 </svg>
