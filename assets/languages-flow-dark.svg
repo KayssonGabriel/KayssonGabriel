@@ -37,8 +37,8 @@
 <text x="679" y="246" fill="#86E3B6" font-size="26" font-family="Consolas, Liberation Mono, monospace" font-weight="700" text-anchor="end" letter-spacing="0">5</text>
 <text x="40" y="289" fill="#F0F6EB" font-size="25" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="600" text-anchor="start" letter-spacing="0">Python</text>
 <rect x="271" y="271" width="343" height="16" rx="8" fill="#264539" stroke="none"/>
-<rect x="271" y="271" width="46" height="16" rx="8" fill="#86E3B6" stroke="none"/>
-<text x="679" y="289" fill="#86E3B6" font-size="26" font-family="Consolas, Liberation Mono, monospace" font-weight="700" text-anchor="end" letter-spacing="0">4</text>
+<rect x="271" y="271" width="57" height="16" rx="8" fill="#86E3B6" stroke="none"/>
+<text x="679" y="289" fill="#86E3B6" font-size="26" font-family="Consolas, Liberation Mono, monospace" font-weight="700" text-anchor="end" letter-spacing="0">5</text>
 <text x="40" y="332" fill="#F0F6EB" font-size="24" font-family="system-ui, Segoe UI, Arial, sans-serif" font-weight="600" text-anchor="start" letter-spacing="0">PowerShell</text>
 <rect x="271" y="314" width="343" height="16" rx="8" fill="#264539" stroke="none"/>
 <rect x="271" y="314" width="23" height="16" rx="8" fill="#86E3B6" stroke="none"/>
@@ -47,7 +47,7 @@
 <rect x="271" y="142" width="343" height="16" rx="8" fill="#FFD197" opacity="0"/>
 <rect x="271" y="185" width="114" height="16" rx="8" fill="#FFD197" opacity="0"/>
 <rect x="271" y="228" width="57" height="16" rx="8" fill="#FFD197" opacity="0"/>
-<rect x="271" y="271" width="46" height="16" rx="8" fill="#FFD197" opacity="0"/>
+<rect x="271" y="271" width="57" height="16" rx="8" fill="#FFD197" opacity="0"/>
 <rect x="271" y="314" width="23" height="16" rx="8" fill="#FFD197" opacity="0"/>
 </g>
 </svg>

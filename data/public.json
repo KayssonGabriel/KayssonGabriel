@@ -4,7 +4,7 @@
     "Java": 30,
     "JavaScript": 5,
     "PowerShell": 2,
-    "Python": 4
+    "Python": 5
   },
   "login": "KayssonGabriel",
   "months": {
@@ -65,13 +65,13 @@
     },
     "2026-11": {
       "forks": 0,
-      "own": 0,
+      "own": 11,
       "third_party": 0
     }
   },
   "repositories": {
     "forks": 1,
-    "own": 51
+    "own": 52
   },
   "version": 1
 }

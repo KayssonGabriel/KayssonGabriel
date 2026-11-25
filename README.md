@@ -12,7 +12,7 @@
   <img src="assets/calendar-wave-loop-light.svg" width="720" alt="Calendário diário de contribuições no GitHub.">
 </picture>
 
-**738 contribuições** no calendário do GitHub (nov/25 a nov/26). A contagem inclui a atividade privada exibida anonimamente no perfil.
+**760 contribuições** no calendário do GitHub (nov/25 a nov/26). A contagem inclui a atividade privada exibida anonimamente no perfil.
 
 Desenvolvo ferramentas para rotinas de cartório, com foco em sincronização de dados e automação de tarefas. Meus projetos públicos incluem scripts PowerShell para suporte no Windows, sistemas distribuídos em Node.js e simuladores de concorrência em Java.
 
@@ -69,7 +69,7 @@ Cinco abordagens para coordenar leitores e escritores sobre um recurso compartil
 | ago/2026 | 31 |
 | set/2026 | 100 |
 | out/2026 | 253 |
-| nov/2026 | 270 |
+| nov/2026 | 292 |
 
 </details>
 
@@ -80,7 +80,7 @@ Cinco abordagens para coordenar leitores e escritores sobre um recurso compartil
   <img src="assets/languages-flow-light.svg" width="720" alt="Gráfico das linguagens predominantes nos repositórios próprios.">
 </picture>
 
-**51 repositórios próprios** · 1 fork público. Cada repositório próprio com linguagem identificada conta uma vez no gráfico.
+**52 repositórios próprios** · 1 fork público. Cada repositório próprio com linguagem identificada conta uma vez no gráfico.
 
 <details>
 <summary>Linguagens por repositório em texto</summary>
@@ -90,7 +90,7 @@ Cinco abordagens para coordenar leitores e escritores sobre um recurso compartil
 | Java | 30 |
 | C++ | 10 |
 | JavaScript | 5 |
-| Python | 4 |
+| Python | 5 |
 | PowerShell | 2 |
 
 </details>
